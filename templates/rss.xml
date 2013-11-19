@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+<channel>
+<title>Existential Comics</title>
+<link>http://existentialcomics.com</link>
+<description>Existential Comics: A comic about the inevitable anguish of living a brief life in an absurd world. Also jokes.</description>
+<language>en</language>{% for comic in comics %}
+    <item>
+        <title>{{ comic.title }}</title>
+        <link>http://existentialcomics.com/comic/{{ comic.comicId }}</link>
+        <description>{% for image in comic.images %}
+            &lt;img src="{{ image.filename }}"{% if image.altText %} alt="{{ image.altText }}" title="{{ comic.altText }}"{% endif %}&gt;
+            {% if not loop.last %}&lt;br /&gt;&lt;hr /&gt;&lt;br /&gt;{% endif %}{% endfor %}
+        </description>
+        <pubDate></pubDate>
+    </item>{% endfor %}
+</channel>
+</rss>

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}{{ comic.title }}{% endblock %}
+{% block head %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"/>
+{% endblock %}
+{% block content %}
+    <div id="content">
+    <img src="{{ titleImg }}" usemap="#titleMap">
+    <map name="titleMap">
+    <area shape="rect" coords="205,0,855,200" href="/" alt="Existential Comics">
+        {% if firstComic %}<area shape="rect" coords="235,206,295,260" href="/comic/{{ firstComic }}" alt="first">{% endif %}
+        {% if prevComic %}<area shape="rect" coords="300,206,387,260" href="/comic/{{ prevComic }}" alt="previous">{% endif %}
+        <area shape="rect" coords="405,206,525,260" href="/comic/random" alt="random">
+        {% if nextComic %}<area shape="rect" coords="550,206,640,260" href="/comic/{{ nextComic }}" alt="next">{% endif %}
+        {% if lastComic %}<area shape="rect" coords="655,206,720,260" href="/comic/{{ lastComic }}" alt="last">{% endif %}
+    </map>
+    <br />
+    <h3>{{ comic.title }}</h3>
+    {% for image in comic.images %}
+    <img src="{{ image.filename }}"{% if image.altText %} alt="{{ image.altText }}" title="{{ image.altText }}"{% endif %}>
+    {% if not loop.last %}<br /><hr /><br />{% endif %}
+    {% endfor %}
+    Permanent Link to this Comic: {{ comic.link }}<br />
+    Contact: existentialcomics@gmail.com<br />
+<a href="/rss.xml"><img src='/static/rssSmall.png'></a>
+<a href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent('{{ comic.link }}'); return false"><img src="/static/reddit.png" alt="submit to reddit" border="0" /></a>
+<a href="#" onclick=" window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('{{ comic.link }}'),'facebook-share-dialog','width=626,height=436'); return false;"><img src='/static/facebook.png'></a>
+<div class="g-plus" data-action="share" data-annotation="none" data-href="{{ comic.comicId }}"></div>
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ comic.link }}">Tweet</a>
+  <script type="text/javascript">(function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+  </script>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.async=true;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    <br />
+    <img src="{{ navImg }}" usemap="#navMap">
+    <map name="navMap">
+        {% if firstComic %}<area shape="rect" coords="0,0,55,56" href="/comic/{{ firstComic }}" alt="first">{% endif %}
+        {% if prevComic %}<area shape="rect" coords="65,0,155,56" href="/comic/{{ prevComic }}" alt="previous">{% endif %}
+        <area shape="rect" coords="165,0,295,56" href="/comic/random" alt="random">
+        {% if nextComic %}<area shape="rect" coords="305,0,405,56" href="/comic/{{ nextComic }}" alt="next">{% endif %}
+        {% if lastComic %}<area shape="rect" coords="415,0,483,56" href="/comic/{{ lastComic }}" alt="last">{% endif %}
+    </map>
+    </div>
+
+{% endblock %}
+
