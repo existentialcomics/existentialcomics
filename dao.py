@@ -22,7 +22,7 @@ def getComic(comicId):
     c.execute('SELECT filename, image_id, alt_text FROM image WHERE comic_id = ?', params)
     images = []
     for row in c:
-        newImage = Image(s.COMIC_PREFIX + row[0], comicId, row[1], row[2])
+        newImage = Image(s.STATIC_URL + row[0], comicId, row[1], row[2])
         images.append(newImage)
 
     return Comic(title, images, comicId, pubDate)

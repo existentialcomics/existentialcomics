@@ -1,7 +1,7 @@
 from flask import Flask, render_template, url_for, g, Response
 import settings as s
 
-app = Flask(__name__, static_folder='/static/')
+app = Flask(__name__, static_folder=s.STATIC_URL)
 app.debug = True
 
 @app.route('/rss.xml')
@@ -43,24 +43,24 @@ def serveComic(curComic=None):
     prevComic = int(comic.comicId) - 1
     lastComic = int(maxComic)
     if int(comic.comicId) == int(maxComic):
-        titleImg = '/static/title_last.jpg'
-        navImg   = '/static/nav_last.jpg'
+        titleImg = s.STATIC_URL + 'title_last.jpg'
+        navImg   = s.STATIC_URL + 'nav_last.jpg'
         lastComic = None
         nextComic = None
     elif int(comic.comicId) == 1:
-        titleImg = '/static/title_first.jpg'
-        navImg   = '/static/nav_first.jpg'
+        titleImg = s.STATIC_URL + 'title_first.jpg'
+        navImg   = s.STATIC_URL + 'nav_first.jpg'
         firstComic = None
         prevComic = None
     else:
-        titleImg = '/static/title.jpg'
-        navImg   = '/static/nav.jpg'
+        titleImg = s.STATIC_URL + 'title.jpg'
+        navImg   = s.STATIC_URL + 'nav.jpg'
 
-    return render_template('comic.html', comic=comic, titleImg=titleImg, navImg=navImg, titleMaps=titleMaps, firstComic=firstComic, prevComic=prevComic, nextComic=nextComic, lastComic=lastComic)
+    return render_template('comic.html', comic=comic, titleImg=titleImg, navImg=navImg, titleMaps=titleMaps, firstComic=firstComic, prevComic=prevComic, nextComic=nextComic, lastComic=lastComic, static=s.STATIC_URL)
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html', titleImg='/static/titleBlank.jpg'), 404
+    return render_template('404.html', titleImg='titleBlank.jpg', static=s.STATIC_URL), 404
 
 if __name__ == "__main__":
     app.debug = True

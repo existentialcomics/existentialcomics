@@ -4,7 +4,8 @@ my $LWEBPATH='/var/www/existentialcomics/';
 my $LSTATICPATH='/var/www/static/';
 my $LDB='/var/www/comic.db';
 my $RWEBPATH='/home/thebalrog/webapps/flask/htdocs/existentialcomics/';
-my $RSTATICPATH='/home/thebalrog/webapps/flask/htdocs/static/';
+#my $RSTATICPATH='/home/thebalrog/webapps/flask/htdocs/static/';
+my $RSTATICPATH='/home/thebalrog/webapps/htdocs/';
 my $RDB='/home/thebalrog/comic.db';
 my $RSYNC='rsync -r -e "ssh -i /home/corey/.ssh/id_dsa" --exclude "*settings.py"';
 
