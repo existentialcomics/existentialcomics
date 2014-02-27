@@ -10,7 +10,7 @@ def getComic(comicId):
 
     c = get_db().cursor()
     params = (comicId,)
-    c.execute('SELECT title, pub_date FROM comic WHERE comic_id = ?', params)
+    c.execute('SELECT title, pub_date, explanation FROM comic WHERE comic_id = ?', params)
 
     results = c.fetchone()
     if results is None:
@@ -18,6 +18,7 @@ def getComic(comicId):
 
     title   = results[0]
     pubDate = results[1]
+    explanation = results[2]
 
     c.execute('SELECT filename, image_id, alt_text FROM image WHERE comic_id = ?', params)
     images = []
@@ -25,7 +26,7 @@ def getComic(comicId):
         newImage = Image(s.STATIC_URL + row[0], comicId, row[1], row[2])
         images.append(newImage)
 
-    return Comic(title, images, comicId, pubDate)
+    return Comic(title, images, comicId, pubDate, explanation)
 
 def getLatestComics(comicsToGet):
     c = get_db().cursor()

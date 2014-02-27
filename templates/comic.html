@@ -7,7 +7,7 @@
 {% endblock %}
 {% block content %}
 <div id="content">
-    <img src="{{ titleImg }}" usemap="#titleMap" altText="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes">
+    <img src="{{ titleImg }}" usemap="#titleMap" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes">
     <map name="titleMap">
     <area shape="rect" coords="45,0,855,200" href="/" alt="Existential Comics">
         {% if firstComic %}<area shape="rect" coords="259,206,312,260" href="/comic/{{ firstComic }}" alt="first">{% endif %}
@@ -21,18 +21,26 @@
     {% for image in comic.images %}
     <img class="comicImg" src="{{ image.filename }}"{% if image.altText %} alt="{{ image.altText }}" title="{{ image.altText }}"{% endif %}>
     {% if not loop.last %}<hr />{% endif %}
+    {% if image.altText %}
+    <div class="altText">
+    {{ image.altText }}
+    </div>
+    {% endif %}
     {% endfor %}
     <div id="bottom">
-        <img src="{{ navImg }}" usemap="#navMap">
-        <map name="navMap">
-            {% if firstComic %}<area shape="rect" coords="0,0,55,56" href="/comic/{{ firstComic }}" alt="first">{% endif %}
-            {% if prevComic %}<area shape="rect" coords="65,0,155,56" href="/comic/{{ prevComic }}" alt="previous">{% endif %}
-            <area shape="rect" coords="165,0,295,56" href="/comic/random" alt="random">
-            {% if nextComic %}<area shape="rect" coords="305,0,405,56" href="/comic/{{ nextComic }}" alt="next">{% endif %}
-            {% if lastComic %}<area shape="rect" coords="415,0,483,56" href="/comic/{{ lastComic }}" alt="last">{% endif %}
-        </map>
-        </br></br>
-        <div style='background-image:url({{ static }}share.jpg);width:483px;height:70px;margin: 0 auto;position:relative'>
+        {% if comic.explanation %}
+        <div id=explanation onclick="showExplanation()">
+        <strong>Didn't get the joke?</strong>
+        </div>
+        </div>
+        <div id=explainHidden style="visibility:hidden;height:0px">
+        {% filter markdown %}
+        {{ comic.explanation }}
+        {% endfilter %}
+        </div>
+        {% endif %}
+        <p class="permalink">Permanent Link to this Comic: {{ comic.link }}</p>
+        <div id="share" style='background-image:url({{ static }}share.jpg);'>
             <div style='position:absolute; bottom:0'>
                 <table>
                 <tr>
@@ -53,24 +61,44 @@
                 </table>
             </div>
         </div>
-        <p>Permanent Link to this Comic: {{ comic.link }}</br>
-        Contact: existentialcomics@gmail.com</p>
-        <p>
-        Other comics I enjoy:</br>
-        <a href="http://www.dead-philosophers.com/">Dead Philosophers in Heaven</a></br>
-        <a href="http://www.smbc-comics.com/">SMBC Comics</a></br>
-        <a href="http://www.qwantz.com/index.php">Dinosaur Comics</a></br>
-        </p>
-        <p>
-        Podcasts I listen to:</br>
-        <a href="http://www.partiallyexaminedlife.com/">Partially Examined Life</a></br>
-        <a href="http://www.historyofphilosophy.net/">History of Philosophy without any Gaps</a></br>
-        <a href="http://www.philosophybites.com/">Philosophy Bites</a></br>
-
-        </p>
+	<img src="{{ navImg }}" usemap="#navMap">
+        <map name="navMap">
+            {% if firstComic %}<area shape="rect" coords="0,0,55,56" href="/comic/{{ firstComic }}" alt="first">{% endif %}
+            {% if prevComic %}<area shape="rect" coords="65,0,155,56" href="/comic/{{ prevComic }}" alt="previous">{% endif %}
+            <area shape="rect" coords="165,0,295,56" href="/comic/random" alt="random">
+            {% if nextComic %}<area shape="rect" coords="305,0,405,56" href="/comic/{{ nextComic }}" alt="next">{% endif %}
+            {% if lastComic %}<area shape="rect" coords="415,0,483,56" href="/comic/{{ lastComic }}" alt="last">{% endif %}
+        </map>
+        <div class="footer">
+            <p>
+            Other comics I enjoy:</br>
+            <a href="http://www.dead-philosophers.com/">Dead Philosophers in Heaven</a></br>
+            <a href="http://www.smbc-comics.com/">SMBC Comics</a></br>
+            <a href="http://www.qwantz.com/index.php">Dinosaur Comics</a></br>
+            </p>
+            <p>
+            Podcasts I listen to:</br>
+            <a href="http://www.partiallyexaminedlife.com/">Partially Examined Life</a></br>
+            <a href="http://www.historyofphilosophy.net/">History of Philosophy without any Gaps</a></br>
+            <a href="http://www.philosophybites.com/">Philosophy Bites</a></br>
+            </p>
+            <p>
+            Contact: <a href="mailto:existentialcomics@gmail.com?subject=You're+the+greatest!">existentialcomics@gmail.com</a>
+            </p>
+        </div>
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+function showExplanation() {
+   var label = document.getElementById('explanation');
+   var labelHidden = document.getElementById('explainHidden');
+        
+   label.innerHTML = labelHidden.innerHTML;
+;
+}
+</script>
 
 {% endblock %}
 

@@ -1,8 +1,10 @@
 from flask import Flask, render_template, url_for, g, Response
-import settings as s
+from flaskext.markdown import Markdown
 
+import settings as s
 app = Flask(__name__, static_folder=s.STATIC_URL)
 app.debug = True
+Markdown(app)
 
 @app.route('/rss.xml')
 def rss():
