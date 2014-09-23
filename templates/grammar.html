@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Grammar report{% endblock %}
+{% block head %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"/>
+<link rel="shortcut icon" href="{{ static }}favicon.ico">
+{% endblock %}
+{% block content %}
+<div id="content">
+    <img src="{{ titleImg }}" usemap="#titleMap" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes">
+    {% if error %}
+    {{ error }}
+    {% endif %}
+    <form method="post">
+        <fieldset>
+            <label for="pedant">Name:</label>
+            <input type="text" name="pedantName" id="pedant" />
+        </fieldset>
+        <fieldset>
+            <label for="email">Email:</label>
+            <input type="text" name="pedantEmail" id="email" />
+        </fieldset>
+        <fieldset>
+            <label for="education">Highest level of education completed:</label>
+            <select name="highestEd" id="education">
+                <option value="none">No schooling completed</option>
+                <option value="someHS">Some high school, no diploma</option>
+                <option value="HSgrad">High school graduate, diploma or the equivalent</option>
+                <option value="someCollege">Some college, no degree</option>
+                <option value="Associate">Associate degree</option>
+                <option value="Bachelor">Bachelor's degree</option>
+                <option value="Master">Master's degree</option>
+                <option value="Prof">Professional degree</option>
+                <option value="PhD">Doctorate degree</option>
+                <option value="Plato">Founded School of Philosophy in Athens</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <label for="whichComic">Please identify the incorrect comic:</label>
+            <input type="text" name="whichComic" id="whichComic" />
+        </fieldset>
+        <fieldset>
+            <label for="youAreWrong">Please explain why it was incorrect:</label>
+            <textarea name="why" id="youAreWrong"></textarea>
+        </fieldset>
+        <fieldset>
+            <label for="comicCorrection">Please correct the comic, as you believe it should be written:</label>
+            <textarea name="correction" id="comicCorrection"></textarea>
+        </fieldset>
+        <img src="{{ captcha.imageUrl }}"><br />
+        <input type="hidden" name="captchaSession" value="{{ captcha.session }}">
+        <fieldset>
+            <label for="captcha">To prove that you are indeed a human grammar pedant, please correct the grammar mistake above:</label>
+            <input type="text" id="captcha" name="captchaAnswer" />
+        </fieldset>
+        <input type="submit" value="Submit" />
+    </form>
+
+    <br />
+</div>
+
+{% endblock %}
+
