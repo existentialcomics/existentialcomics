@@ -9,14 +9,6 @@
 <div id="content">
     {% if showAds %}<center><script type="text/javascript" src="http://ap.lijit.com///www/delivery/fpi.js?z=250940&u=existentialcomics&width=728&height=90"></script></center>{% endif %}
     <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
-    <img src="{{ navImg }}" usemap="#navMap">
-    <map name="navMap">
-        {% if firstComic %}<area shape="rect" coords="0,0,55,56" href="/comic/{{ firstComic }}" alt="first">{% endif %}
-        {% if prevComic %}<area shape="rect" coords="65,0,155,56" href="/comic/{{ prevComic }}" alt="previous">{% endif %}
-        <area shape="rect" coords="165,0,295,56" href="/comic/random" alt="random">
-        {% if nextComic %}<area shape="rect" coords="305,0,405,56" href="/comic/{{ nextComic }}" alt="next">{% endif %}
-        {% if lastComic %}<area shape="rect" coords="415,0,483,56" href="/comic/{{ lastComic }}" alt="last">{% endif %}
-    </map>
 <h3>{{ comic.title }}</h3>
     {% for image in comic.images %}
     {% if image.link %}

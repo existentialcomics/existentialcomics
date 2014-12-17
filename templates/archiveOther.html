@@ -8,25 +8,16 @@
 {% block content %}
 <div id="content" class="page">
     <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
-    </br>Sort by:</br>
-    <a href="/archive/byDate">Date</a> | <a href="/archive/byCategory">Category</a> | Philosopher | <a href="/archive/byPopularity">Popularity</a></br>
-    <div id="philosophers" class="column">
-    <h3>Philosophers:</h3>
+    </br>
+    <div>
+    <h3>Unofficial comics:</h3>
     <ul>
-    {% for philosopher in philosophers %}
-        <li> <span>{{philosopher.birthYear}} &ndash; {{philosopher.deathYear}}</span> {{ philosopher.name }} {% for comic in philosopher.comics %}{% if loop.first %} ({% endif %}<a href="{{ comic.link }}" title="{{ comic.title }}">{{ comic.comicId }}</a>{% if loop.last %}){% else %},{% endif %}{% endfor %}</li>
+    {% for comic in comics %}
+        <li> <a href = "{{ comic.link }}"}>{{ comic.title }}</a>{% for lang in comic.altLangs %}{% if loop.first %} ({% endif %}<a href="{{ lang.link }}">{{ lang.langName }}</a>{% if loop.first %}){% endif %}{% endfor %}</li>
     {% endfor %}
     </ul>
     </div>
-    
-    <div id="non-philsophers" class="column">
-    <h3>Comics with no philosophers appearing:</h3>
-    <ul>
-    {% for comic in nonPhilosophers %}
-        <li> <a href = "{{ comic.link }}"}>{{ comic.title }}</a></li>
-    {% endfor %}
-    </ul>
-    </div>
+</div>
 
 
     <div id="bottom">

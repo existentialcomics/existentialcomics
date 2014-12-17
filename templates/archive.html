@@ -14,37 +14,12 @@
     <div id="serious-comics" class="column">
     <h3>Existential comics:</h3>
     <ul>
-    {% for comic in seriousComics %}
+    {% for comic in comics %}
         <li> <a href = "{{ comic.link }}"}>{{ comic.title }}</a>{% for lang in comic.altLangs %}{% if loop.first %} ({% endif %}<a href="{{ lang.link }}">{{ lang.langName }}</a>{% if loop.first %}){% endif %}{% endfor %}</li>
     {% endfor %}
     </ul>
     </div>
-    <div id="dialogs" class="column">
-    <h3>Dialogs:</h3>
-    <ul>
-    {% for comic in dialogComics %}
-        <li> <a href = "{{ comic.link }}"}>{{ comic.title }}</a>{% for lang in comic.altLangs %}{% if loop.first %} ({% endif %}<a href="{{ lang.link }}">{{ lang.langName }}</a>{% if loop.first %}){% endif %}{% endfor %}</li>
-    {% endfor %}
-    </ul>
-    </div>
-
-    <div id="shitty-comics" class="column">
-    <h3>Terrible philosophy jokes:</h3>
-    <ul>
-    {% for comic in jokeComics %}
-        <li> <a href = "{{ comic.link }}"}>{{ comic.title }}</a>{% for lang in comic.altLangs %}{% if loop.first %} ({% endif %}<a href="{{ lang.link }}">{{ lang.langName }}</a>{% if loop.first %}){% endif %}{% endfor %} </li>
-    {% endfor %}
-    </ul>
-    </div>
-
-    <div id="philosophersplay-comics" class="column">
-    <h3>Philosophers play X:</h3>
-    <ul>
-    {% for comic in philosophersPlayComics %}
-        <li> <a href = "{{ comic.link }}"}>{{ comic.title }}</a>{% for lang in comic.altLangs %}{% if loop.first %} ({% endif %}<a href="{{ lang.link }}">{{ lang.langName }}</a>{% if loop.first %}){% endif %}{% endfor %} </li>
-    {% endfor %}
-    </ul>
-    </div>
+     </div>
 
 
     <div id="bottom">

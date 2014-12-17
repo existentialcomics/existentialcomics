@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ comic.title }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 {% block head %}
 <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"/>
 <link rel="shortcut icon" href="{{ static }}/favicon.ico">
@@ -9,40 +9,11 @@
 <div id="content">
     {% if showAds %}<center><script type="text/javascript" src="http://ap.lijit.com///www/delivery/fpi.js?z=250940&u=existentialcomics&width=728&height=90"></script></center>{% endif %}
     <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
-    <img src="{{ navImg }}" usemap="#navMap">
-    <map name="navMap">
-        {% if firstComic %}<area shape="rect" coords="0,0,55,56" href="/comic/{{ firstComic }}" alt="first">{% endif %}
-        {% if prevComic %}<area shape="rect" coords="65,0,155,56" href="/comic/{{ prevComic }}" alt="previous">{% endif %}
-        <area shape="rect" coords="165,0,295,56" href="/comic/random" alt="random">
-        {% if nextComic %}<area shape="rect" coords="305,0,405,56" href="/comic/{{ nextComic }}" alt="next">{% endif %}
-        {% if lastComic %}<area shape="rect" coords="415,0,483,56" href="/comic/{{ lastComic }}" alt="last">{% endif %}
-    </map>
-<h3>{{ comic.title }}</h3>
-    {% for image in comic.images %}
-    {% if image.link %}
-    <a href="{{ image.link }}">
-    {% endif %}
-    <img class="comicImg" src="{{ image.filename }}"{% if image.altText %} alt="{{ image.altText }}" title="{{ image.altText }}"{% endif %}>
-    {% if image.link %}
-    </a>
-    {% endif %}
-    {% if not loop.last %}<br />{% endif %}
-    {% if image.altText %}
-    <div class="altText">
-    {{ image.altText }}
-    </div>
-    {% endif %}
-    {% endfor %}
-    <div id="bottom">
-        {% if comic.explanation %}
-        <div id=explanation onclick="showExplanation()">
-        <strong>Didn't get the joke?</strong>
-        </div>
-        <div id=explainHidden>
-        {{ comic.explanation|safe }}
-        </div>
-        {% endif %}
-        <p class="permalink">Permanent Link to this Comic: {{ comic.link }}</p>
+<h3>{{ blog.title }}</h3>
+
+{{ blog.text|safe }}
+
+        <p class="permalink">Permanent Link to this Blog: {{ blog.link }}</p>
         <a href="http://www.patreon.com/ExistentialComics">Support the comic on Patreon</a>
         <div id="share" style='background-image:url({{ static }}/share_42.jpg);'>
             <div style='position:absolute; bottom:0'>
@@ -56,10 +27,10 @@
                 </td>
                 <!--- share -->
                 <td width="241px">
-                <a href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent('{{ comic.link }}'); return false"><img src="{{ static }}/reddit_42.png" alt="share with reddit" title="share with reddit" border="0" /></a>
-                <a href='https://twitter.com/share' onclick=" window.open('https://twitter.com/share?url='+encodeURIComponent('{{ comic.link }}')+'&text='+encodeURIComponent('{{ comic.title }} via @existentialcoms -'))"><img src='{{ static }}/twitter_42.png' alt="share on twitter" title="share with twitter"></a>
-                <a href="https://www.facebook.com/sharer/" onclick=" window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('{{ comic.link }}'),'facebook-share-dialog','width=626,height=436'); return false;"><img src='{{ static }}/facebook_42.png' alt="share with your friends on facebook" title="share with your friends"></a>
-                <a href='https://plus.google.com/share' onclick=" window.open('https://plus.google.com/share?url='+encodeURIComponent('{{ comic.link}}') )"><img src='{{ static }}/gplus_42.png' alt="share with google employees" title="share with google employees"></a>
+                <a href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent('{{ blog.link }}'); return false"><img src="{{ static }}/reddit_42.png" alt="share with reddit" title="share with reddit" border="0" /></a>
+                <a href='https://twitter.com/share' onclick=" window.open('https://twitter.com/share?url='+encodeURIComponent('{{ blog.link }}')+'&text='+encodeURIComponent('{{ blog.title }} via @existentialcoms -'))"><img src='{{ static }}/twitter_42.png' alt="share on twitter" title="share with twitter"></a>
+                <a href="https://www.facebook.com/sharer/" onclick=" window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('{{ blog.link }}'),'facebook-share-dialog','width=626,height=436'); return false;"><img src='{{ static }}/facebook_42.png' alt="share with your friends on facebook" title="share with your friends"></a>
+                <a href='https://plus.google.com/share' onclick=" window.open('https://plus.google.com/share?url='+encodeURIComponent('{{ blog.link}}') )"><img src='{{ static }}/gplus_42.png' alt="share with google employees" title="share with google employees"></a>
                 </td>
                 </tr>
                 </table>
