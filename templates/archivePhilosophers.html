@@ -9,16 +9,16 @@
 <div id="content" class="page">
     <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
     </br>Sort by:</br>
-    <a href="/archive/byDate">Date</a> | <a href="/archive/byCategory">Category</a> | Philosopher | <a href="/archive/byPopularity">Popularity</a></br>
+    <a href="/archive/byCategory">Category</a> | <a href="/archive/byDate">Date</a> | Philosopher | <a href="/archive/byPopularity">Popularity</a> | <a href="/archive/byTopic">Topic</a></br>
+	<br />Sort philosophers by: <a href="/archive/byPhilosopher?sort=date">Date</a> | <a href="/archive/byPhilosopher?sort=appearance">Appearances</a> | <a href="/archive/byPhilosopher?sort=name">Name</a><br />
     <div id="philosophers" class="column">
     <h3>Philosophers:</h3>
     <ul>
     {% for philosopher in philosophers %}
-        <li> <span>{{philosopher.birthYear}} &ndash; {{philosopher.deathYear}}</span> {{ philosopher.name }} {% for comic in philosopher.comics %}{% if loop.first %} ({% endif %}<a href="{{ comic.link }}" title="{{ comic.title }}">{{ comic.comicId }}</a>{% if loop.last %}){% else %},{% endif %}{% endfor %}</li>
+        <li> <span>{{philosopher.birthYear}} &ndash; {{philosopher.deathYear}}</span> <a href="{{ philosopher.link }}" {% if philosopher.bio %}title = "{{philosopher.bio}}"{% endif %}>{{ philosopher.name }}</a> {% for comic in philosopher.comics %}{% if loop.first %} ({% endif %}<a href="{{ comic.link }}" title="{{ comic.title }}">{{ comic.comicId }}</a>{% if loop.last %}){% else %},{% endif %}{% endfor %}</li>
     {% endfor %}
     </ul>
     </div>
-    
     <div id="non-philsophers" class="column">
     <h3>Comics with no philosophers appearing:</h3>
     <ul>
@@ -35,8 +35,11 @@
             Contact: <a href="mailto:existentialcomics@gmail.com?subject=You're the greatest!">existentialcomics@gmail.com</a>
             </p>
             <ul class="nav">
-	      <li> <a href="/">Home</a> </li>
-              <li> Archive </li>
+	        <li> <a href="/">Home</a> </li>
+        	<li> <a>Archive</a> </li>
+      	        <li> <a href="http://www.patreon.com/ExistentialComics">Patreon</a> </li>
+                <li> <a href="/unofficialComics">Unofficial Comics</a> </li>
+                <li> <a href="/blog">Blog</a> </li>
             </ul>
         </div>
     </div>

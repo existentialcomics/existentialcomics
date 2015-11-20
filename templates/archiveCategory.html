@@ -10,7 +10,7 @@
     <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
     </br>
     Sort by:</br>
-    <a href="/archive/byDate">Date</a> | Category | <a href="/archive/byPhilosopher">Philosopher</a> | <a href="/archive/byPopularity">Popularity</a></br>
+    Category | <a href="/archive/byDate">Date</a> | <a href="/archive/byPhilosopher">Philosopher</a> | <a href="/archive/byPopularity">Popularity</a> | <a href="/archive/byTopic">Topic</a></br>
     <div id="serious-comics" class="column">
     <h3>Existential comics:</h3>
     <ul>
@@ -46,6 +46,15 @@
     </ul>
     </div>
 
+    <div id="superhero-comics" class="column">
+    <h3>Philosophy Superheroes:</h3>
+    <ul>
+    {% for comic in superheroComics %}
+        <li> <a href = "{{ comic.link }}"}>{{ comic.title }}</a>{% for lang in comic.altLangs %}{% if loop.first %} ({% endif %}<a href="{{ lang.link }}">{{ lang.langName }}</a>{% if loop.first %}){% endif %}{% endfor %} </li>
+    {% endfor %}
+    </ul>
+    </div>
+
 
     <div id="bottom">
         <div class="footer">
@@ -53,8 +62,11 @@
             Contact: <a href="mailto:existentialcomics@gmail.com?subject=You're the greatest!">existentialcomics@gmail.com</a>
             </p>
             <ul class="nav">
-	      <li> <a href="/">Home</a> </li>
-              <li> Archive </li>
+      	  <li> <a href="/">Home</a> </li>
+              <li> <a>Archive</a> </li>
+      	  <li> <a href="http://www.patreon.com/ExistentialComics">Patreon</a> </li>
+      	  <li> <a href="/unofficialComics">Unofficial Comics</a> </li>
+              <li> <a href="/blog">Blog</a> </li>
             </ul>
         </div>
     </div>

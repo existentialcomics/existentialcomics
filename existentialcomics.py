@@ -14,6 +14,29 @@ app.debug = True
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost:3036/comic'
 db = SQLAlchemy(app)
 
+@app.route("/")
+def home():
+    import dao
+    import re
+    p = re.compile('.*philosophy.sexy', re.IGNORECASE)
+    host = request.headers['Host']
+    m = p.match(host)
+    if (m):
+        return sexyRandom()
+    return serveComic(dao.getMaxComic())
+
+@app.route('/regex', methods=['GET', 'POST'])
+def regexgolf():
+	import dao
+	level = "test"
+	regex = ""
+	if request.method == 'POST':
+		matches = dao.testRegexMatches(level, request.form['regex'])
+		regex = request.form['regex']
+	else:
+		matches = dao.getRegexMatches(level)    
+	return render_template('regex.html', matches=matches, regex=regex)
+    
 @app.route('/rss.xml')
 def rss():
     import dao
@@ -35,6 +58,73 @@ def grammar():
     captcha = dao.getCaptcha()
     return render_template('grammar.html', titleImg=titleImg, captcha=captcha, error=error, static=s.STATIC_URL)
 
+@app.route('/blog')
+def blogMain():
+    return blog(None, None)
+
+@app.route('/vote', methods=['GET', 'POST'])
+def sexyRandom():
+    return sexyMain(None)
+
+@app.route('/vote/<philosopherId>', methods=['GET', 'POST'])
+def sexyMain(philosopherId = None):
+    import dao
+    titleImg = s.STATIC_URL + '/sexyHeader.png'
+    prevPhilosopher = None
+
+    if request.method == 'POST':
+        ip = request.remote_addr
+        proxy = None
+        if request.headers.getlist("X-Forwarded-For"):
+            proxy = ', '.join(request.headers.getlist("X-Forwarded-For"))
+        dao.addVote(request.form['philosopherId'], request.form['score'], ip, proxy)
+        prevPhilosopher = dao.getSexyPhilosopher(request.form['philosopherId'])
+
+
+    philosopher = None
+    if philosopherId is None:
+        philosopher = dao.getRandomSexyPhilosopher()
+    else:
+        philosopher = dao.getSexyPhilosopher(philosopherId)
+    
+    return render_template('sexy.html', titleImg=titleImg, philosopher=philosopher, prevPhilosopher = prevPhilosopher, name = philosopher.name, static=s.STATIC_URL, showAds = s.SHOW_ADS)
+
+@app.route('/ranking')
+def sexyRanking():
+    import dao
+    titleImg = s.STATIC_URL + '/sexyHeader.png'
+    philosophers = dao.getAllSexyPhilosophers()
+    return render_template('sexyRanking.html', titleImg=titleImg, philosophers = philosophers, static=s.STATIC_URL, showAds = s.SHOW_ADS)
+
+@app.route('/sexy/upload', methods=['GET', 'POST'])
+def sexyUpload():
+    import dao
+    titleImg = s.STATIC_URL + '/titleArchive.jpg'
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            return redirect(url_for('uploaded_file',
+                                    filename=filename))
+        dao.createPhilosopher(request.form['philosopherId'], request.form['score'], request.remote_addr)
+    return render_template('sexyUploadDone.html', titleImg=titleImg, static=s.STATIC_URL, showAds = s.SHOW_ADS)
+
+@app.route('/blog/<blogId>/<blogTitle>')
+def blog(blogId=None, blogTitle=None):
+    import dao
+
+    titleImg = s.STATIC_URL + '/titleArchive.jpg'
+
+    if blogId is None:
+        blogId = dao.getMaxBlog()
+    blog = dao.getBlog(blogId)   
+    return render_template('blog.html', titleImg=titleImg, blog=blog, static=s.STATIC_URL, showAds = s.SHOW_ADS)
+
+@app.route('/patreon')
+def patreon():
+    return serveComic(53, "en")
+
 @app.route('/comic/random')
 def random():
     import dao
@@ -48,7 +138,8 @@ def random():
     if seenComics != None:
         seenAry = seenComics.split(':');
         for i in seenAry:
-            seenSet.add(int(i))
+            if i.isdigit():
+                seenSet.add(int(i))
         if len(seenSet) + 1 >= maxComic:
             seenAry = list()
         while curComic in seenSet:
@@ -58,34 +149,65 @@ def random():
                 curComic += 1
     return redirect("/comic/" + str(curComic))
 
-@app.route("/")
-def home():
-    import dao
-    return serveComic(dao.getMaxComic())
 
 @app.route('/about')
 def serveAbout():
     titleImg = s.STATIC_URL + '/titleArchive.jpg'
     return render_template('about.html', titleImg=titleImg, static=s.STATIC_URL)
 
+@app.route('/unofficialComics')
+def serveArchiveOther():
+    import dao
+    comics = dao.getAllAlternateComics("date", "en")
+    titleImg = s.STATIC_URL + '/titleArchive.jpg'
+    return render_template('archiveOther.html', comics=comics, titleImg=titleImg, static=s.STATIC_URL)
+
 @app.route('/archive')
 def serveArchiveDefault():
     return serveArchive('byCategory')
 
+@app.route('/archive/<displayMode>/<minorSort>')
+def serveArchiveSorted(displayMode = "byCategory", minorSort = None):
+    return serveArchive(displayMode, minorSort)
+
 @app.route('/archive/<displayMode>')
-def serveArchive(displayMode = "byCategory"):
+def serveArchive(displayMode = "byCategory", minorSort = None):
     import dao
 
     mode = "category"
     if (displayMode.lower() == "byphilosopher"):
         mode = "philosopher"
-    
+    if (displayMode.lower() == "bydate"):
+        mode = "date"
+    if (displayMode.lower() == "other"):
+        mode = "other"
+    if (displayMode.lower() == "bypopularity"):
+        mode = "popularity"
+    if (displayMode.lower() == "bytopic"):
+        mode = "topic"
+
+    if (mode == "other"):
+        comics = dao.getAllAlternateComics("date", "en")
+        titleImg = s.STATIC_URL + '/titleArchive.jpg'
+        return render_template('archiveOther.html', comics=comics, titleImg=titleImg, static=s.STATIC_URL)
+
+    if (mode == "popularity"):    
+        comics = dao.getAllComics("popularity", "en")
+        titleImg = s.STATIC_URL + '/titleArchive.jpg'
+        return render_template('archivePopularity.html', comics=comics, titleImg=titleImg, static=s.STATIC_URL)
+
+    if (mode == "date"):    
+        comics = dao.getAllComics("date", "en")
+        titleImg = s.STATIC_URL + '/titleArchive.jpg'
+        return render_template('archiveDate.html', comics=comics, titleImg=titleImg, static=s.STATIC_URL)
+
     if (mode == "category"):
         comics = dao.getAllComics()
         seriousComics = list()
         dialogComics  = list()
         jokeComics    = list()
         philosophersPlayComics    = list()
+        superheroComics = list()
         for comic in comics:
             if (comic.comicType == 'serious'):
                 seriousComics.append(comic)
@@ -95,14 +217,42 @@ def serveArchive(displayMode = "byCategory"):
                 jokeComics.append(comic)
             elif (comic.comicType == 'philosophers play'):
                 philosophersPlayComics.append(comic)
+            elif (comic.comicType == 'superhero'):
+                superheroComics.append(comic)
 
         titleImg = s.STATIC_URL + '/titleArchive.jpg'
-        return render_template('archive.html', seriousComics=seriousComics, dialogComics=dialogComics, jokeComics=jokeComics, philosophersPlayComics=philosophersPlayComics, titleImg=titleImg, static=s.STATIC_URL)
+        return render_template('archiveCategory.html', seriousComics=seriousComics, dialogComics=dialogComics, jokeComics=jokeComics, philosophersPlayComics=philosophersPlayComics, superheroComics=superheroComics, titleImg=titleImg, static=s.STATIC_URL)
+
     if (mode == "philosopher"):
         philosophers = dao.getAllPhilosophers()
+        if request.args.get('sort') == 'appearance':
+	        philosophers.sort(key=lambda x: len(x.comics), reverse=True)
+        if request.args.get('sort') == 'name':
+	        philosophers.sort(key=lambda x: x.name, reverse=False)
         nonPhilosophers = dao.getNonPhilosopherComics()
         titleImg = s.STATIC_URL + '/titleArchive.jpg'
         return render_template('archivePhilosophers.html', philosophers=philosophers, nonPhilosophers=nonPhilosophers, titleImg=titleImg, static=s.STATIC_URL)
+
+    if (mode == "topic"):
+        topics = dao.getAllTopics()
+        #nonPhilosophers = dao.getNonPhilosopherComics()
+        titleImg = s.STATIC_URL + '/titleArchive.jpg'
+        return render_template('archiveTopics.html', topics=topics, titleImg=titleImg, static=s.STATIC_URL)
+
+@app.route('/philosopher/<philosopherName>')
+def servePhilosopher(philosopherName=None, lang='en'):
+    import dao
+    import urllib
+ 
+    philosopher = dao.getPhilosopherByName(urllib.unquote(philosopherName.replace("_", " ")).decode('utf8'))
+    if philosopher is None:
+        return page_not_found(None) 
+    
+    titleImg = s.STATIC_URL + '/title.jpg'
+
+    philosopher.reverseComics()
+
+    return render_template('comicPhilosopher.html', philosopher=philosopher, titleImg=titleImg, static=s.STATIC_URL, showAds = s.SHOW_ADS)
 
 @app.route('/comic/<lang>/<curComic>')
 def serveComicLang(curComic=None, lang='es'):
@@ -129,6 +279,8 @@ def serveComic(curComicInput=None, lang='en'):
     if comic is None:
         return page_not_found(None) 
    
+    philosophers = dao.getPhilosophersByComic(comic.comicId)
+	
     navMaps = []
     titleMaps = []
 
@@ -160,18 +312,34 @@ def serveComic(curComicInput=None, lang='en'):
     if seenComics != None:
         seenAry = seenComics.split(':');
         for i in seenAry:
-            if i == curComic:
-                seen = 1
-            seenSet.add(int(i))
+            if i.isdigit():
+                if i == curComic:
+                    seen = 1
+                seenSet.add(int(i))
         if len(seenSet) + 1 >= maxComic:
             seenAry = list()
     if seen == 0:
         seenAry.append(curComic)     
 
-    resp = make_response(render_template('comic.html', comic=comic, titleImg=titleImg, navImg=navImg, titleMaps=titleMaps, firstComic=firstComic, prevComic=prevComic, nextComic=nextComic, lastComic=lastComic, langUrl = langUrl, static=s.STATIC_URL, showAds = s.SHOW_ADS))
+    resp = make_response(render_template('comic.html', comic=comic, philosophers=philosophers,titleImg=titleImg, navImg=navImg, titleMaps=titleMaps, firstComic=firstComic, prevComic=prevComic, nextComic=nextComic, lastComic=lastComic, langUrl = langUrl, static=s.STATIC_URL, showAds = s.SHOW_ADS))
     resp.set_cookie('seen', ':'.join(str(x) for x in seenAry))
     resp.set_cookie('len', str(len(seenSet)))
     return resp
+
+@app.route('/comic/other/<curComicInput>')
+def serveAlternateComic(curComicInput=None, lang='en'):
+    import dao
+    curComic = None
+    try:
+        curComic = long(curComicInput)
+    except ValueError:
+        return page_not_found(None)
+    comic = dao.getAlternateComic(curComic)
+    if comic is None:
+        return page_not_found(None)
+    titleImg = s.STATIC_URL + '/title.jpg'
+    return make_response(render_template('comicOther.html', comic=comic, titleImg=titleImg, static=s.STATIC_URL, showAds = s.SHOW_ADS))
+
 
 @app.errorhandler(404)
 def page_not_found(e):

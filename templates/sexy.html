@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Sexy Philosophers, {{ philosopher.name }}{% endblock %}
+{% block head %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"/>
+<link rel="shortcut icon" href="{{ static }}/favicon.ico">
+{% endblock %}
+{% block content %}
+<div id="content">
+    {% if showAds %}<center><script type="text/javascript" src="http://ap.lijit.com///www/delivery/fpi.js?z=250940&u=existentialcomics&width=728&height=90"></script></center>{% endif %}
+    <a href="/"><img src="{{ static }}/sexyHeader.png" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a><br>
+  
+<div id = "currentSexyPhilosopher">
+<div id = "hotornot">
+<h3><b>Select a rating to see the next picture</b></h3>
+    <form id="vote" action="/vote" method="post">
+	<div id="voteButtons">
+	<font color="blue"><b>NOT</b></font>
+        <input class = "sexyradio" type="radio" name="score" value="1" onclick="this.form.submit();">
+        <label>1</label>
+        <input type="radio" name="score" value="2" onclick="this.form.submit();">
+        <label>2</label>
+        <input type="radio" name="score" value="3" onclick="this.form.submit();">
+        <label>3</label>
+        <input type="radio" name="score" value="4" onclick="this.form.submit();">
+        <label>4</label> 
+        <input type="radio" name="score" value="5" onclick="this.form.submit();">
+        <label>5</label> 
+        <input type="radio" name="score" value="6" onclick="this.form.submit();">
+        <label>6</label> 
+        <input type="radio" name="score" value="7" onclick="this.form.submit();">
+        <label>7</label> 
+        <input type="radio" name="score" value="8" onclick="this.form.submit();">
+        <label>8</label> 
+        <input type="radio" name="score" value="9" onclick="this.form.submit();">
+        <label>9</label> 
+        <input type="radio" name="score" value="10" onclick="this.form.submit();">
+        <label>10</label>
+	<font color="red"><b>&nbsp;&nbsp;HOT</b></font>
+	</div>
+	<br>
+	<input type="hidden" name="philosopherId" value = "{{ philosopher.philosopherId }}">
+    </form>
+</div>
+<br>
+<img src="{{ static }}{{ philosopher.image }}" width = "600">
+<a href="/vote/{{ philosopher.philosopherId }}">permalink to this philosopher</a>
+
+</div>
+
+{% if prevPhilosopher %}
+<div id="prevSexyPhilosopher" style="border-color: #{{ prevPhilosopher.color }}">
+{{ prevPhilosopher.name  }}<br>
+<img src = "{{ static }}{{ prevPhilosopher.image  }}"  width = "200"><br>
+{{ prevPhilosopher.score }}
+</div>
+{% endif %}
+        <div class="footer">
+Brought to you by that one dude who makes <a href="http://existentialcomics.com/">Existential Comics<a/>. <a href = "/ranking">See the rankings here</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

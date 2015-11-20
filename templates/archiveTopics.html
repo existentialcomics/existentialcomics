@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Archive{% endblock %}
+{% block head %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"/>
+<link rel="shortcut icon" href="{{ static }}favicon.ico">
+{% endblock %}
+{% block content %}
+<div id="content" class="page">
+    <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
+    </br>Sort by:</br>
+    <a href="/archive/byCategory">Category</a> | <a href="/archive/byDate">Date</a> | <a href="/archive/byPhilosopher">Philosopher</a> | <a href="/archive/byPopularity">Popularity</a> | Topic </br>
+    <div id="topics" class="column">
+
+    {% for topic in topics %}
+    <h3>{{ topic.name }}:</h3>
+    <ul>
+    {% for comic in topic.comics %}{% if loop.first %} {% endif %}<li><a href="{{ comic.link }}">{{ comic.title }}</a></br>{% if loop.last %}{% else %}{% endif %}{% endfor %}</li>
+    </ul>
+    {% endfor %}
+    </div>
+
+
+    <div id="bottom">
+        <div class="footer">
+            <p>
+            Contact: <a href="mailto:existentialcomics@gmail.com?subject=You're the greatest!">existentialcomics@gmail.com</a>
+            </p>
+            <ul class="nav">
+	        <li> <a href="/">Home</a> </li>
+        	<li> <a>Archive</a> </li>
+      	        <li> <a href="http://www.patreon.com/ExistentialComics">Patreon</a> </li>
+                <li> <a href="/unofficialComics">Unofficial Comics</a> </li>
+                <li> <a href="/blog">Blog</a> </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

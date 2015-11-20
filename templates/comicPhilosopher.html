@@ -1,6 +1,5 @@
 {% extends "base.html" %}
-
-{% block title %}{{ comic.title }}{% endblock %}
+{% block title %}{{ philosopher.name }}{% endblock %}
 {% block head %}
 <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"/>
 <link rel="shortcut icon" href="{{ static }}/favicon.ico">
@@ -9,7 +8,7 @@
 <div id="content">
     {% if showAds %}<center><script type="text/javascript" src="http://ap.lijit.com///www/delivery/fpi.js?z=250940&u=existentialcomics&width=728&height=90"></script></center>{% endif %}
     <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
-<p>This is an unofficial comic, to go back to <a href = "/unofficialComics">the unoffical archive click here</a><p>
+{% for comic in philosopher.comics %}
 <h3>{{ comic.title }}</h3>
     {% for image in comic.images %}
     {% if image.link %}
@@ -26,17 +25,9 @@
     </div>
     {% endif %}
     {% endfor %}
-    <div id="bottom">
-        {% if comic.explanation %}
-        <div id=explanation onclick="showExplanation()">
-        <strong>Didn't get the joke?</strong>
-        </div>
-        <div id=explainHidden>
-        {{ comic.explanation|safe }}
-        </div>
-        {% endif %}
-        <p>This is an unofficial comic, to go back to <a href = "/unofficialComics">the unoffical archive click here</a><p>
         <p class="permalink">Permanent Link to this Comic: {{ comic.link }}</p>
+{% endfor %}
+    <div id="bottom">
         <a href="http://www.patreon.com/ExistentialComics">Support the comic on Patreon</a>
         <div id="share" style='background-image:url({{ static }}/share_42.jpg);'>
             <div style='position:absolute; bottom:0'>
@@ -50,10 +41,10 @@
                 </td>
                 <!--- share -->
                 <td width="241px">
-                <a href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent('{{ comic.link }}'); return false"><img src="{{ static }}/reddit_42.png" alt="share with reddit" title="share with reddit" border="0" /></a>
-                <a href='https://twitter.com/share' onclick=" window.open('https://twitter.com/share?url='+encodeURIComponent('{{ comic.link }}')+'&text='+encodeURIComponent('{{ comic.title }} via @existentialcoms -'))"><img src='{{ static }}/twitter_42.png' alt="share on twitter" title="share with twitter"></a>
-                <a href="https://www.facebook.com/sharer/" onclick=" window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('{{ comic.link }}'),'facebook-share-dialog','width=626,height=436'); return false;"><img src='{{ static }}/facebook_42.png' alt="share with your friends on facebook" title="share with your friends"></a>
-                <a href='https://plus.google.com/share' onclick=" window.open('https://plus.google.com/share?url='+encodeURIComponent('{{ comic.link}}') )"><img src='{{ static }}/gplus_42.png' alt="share with google employees" title="share with google employees"></a>
+                <a href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent('{{ philosopher.name }}'); return false"><img src="{{ static }}/reddit_42.png" alt="share with reddit" title="share with reddit" border="0" /></a>
+                <a href='https://twitter.com/share' onclick=" window.open('https://twitter.com/share?url='+encodeURIComponent('{{ philosopher.name }}')+'&text='+encodeURIComponent('{{ philosopher.title }} via @existentialcoms -'))"><img src='{{ static }}/twitter_42.png' alt="share on twitter" title="share with twitter"></a>
+                <a href="https://www.facebook.com/sharer/" onclick=" window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('{{ philosopher.name }}'),'facebook-share-dialog','width=626,height=436'); return false;"><img src='{{ static }}/facebook_42.png' alt="share with your friends on facebook" title="share with your friends"></a>
+                <a href='https://plus.google.com/share' onclick=" window.open('https://plus.google.com/share?url='+encodeURIComponent('{{ philosopher.name}}') )"><img src='{{ static }}/gplus_42.png' alt="share with google employees" title="share with google employees"></a>
                 </td>
                 </tr>
                 </table>
@@ -99,6 +90,9 @@
                     <li>
                         <a href="http://www.critical-theory.com">Critical-Theory</a>
                     </li>
+                    <li>
+                        <a href="http://www.newphilosopher.com">New Philospoher</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -107,7 +101,6 @@
             Contact: <a href="mailto:existentialcomics@gmail.com?subject=You're the greatest!">existentialcomics@gmail.com</a>
             </p>
             <ul class="nav">
-              <li> <a href="/">Home</a> </li>
               <li> <a href="/archive">Archive</a> </li>
               <li> <a href="http://www.patreon.com/ExistentialComics">Patreon</a> </li>
               <li> <a href="/unofficialComics">Unofficial Comics</a> </li>

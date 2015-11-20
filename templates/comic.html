@@ -1,15 +1,32 @@
 {% extends "base.html" %}
-
 {% block title %}{{ comic.title }}{% endblock %}
 {% block head %}
 <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"/>
 <link rel="shortcut icon" href="{{ static }}/favicon.ico">
+<meta property="og:title" content="{{ comic.title}}" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="{{ comic.images[0].filename}}" />
+<meta property="og:url" content="{{comic.link}}" />
+<meta property="og:description" content="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes" />
+
 {% endblock %}
 {% block content %}
 <div id="content">
-    {% if showAds %}<center><script type="text/javascript" src="http://ap.lijit.com///www/delivery/fpi.js?z=250940&u=existentialcomics&width=728&height=90"></script></center>{% endif %}
+{% if showAds %}
+<center>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- comic-top -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:728px;height:90px"
+     data-ad-client="ca-pub-2476863297975868"
+     data-ad-slot="8363264631"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</center>
+{% endif %}
     <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
-    <img src="{{ navImg }}" usemap="#navMap">
+    <img src="{{ navImg }}" usemap="#navMap" />
     <map name="navMap">
         {% if firstComic %}<area shape="rect" coords="0,0,55,56" href="/comic/{{ firstComic }}" alt="first">{% endif %}
         {% if prevComic %}<area shape="rect" coords="65,0,155,56" href="/comic/{{ prevComic }}" alt="previous">{% endif %}
@@ -17,7 +34,10 @@
         {% if nextComic %}<area shape="rect" coords="305,0,405,56" href="/comic/{{ nextComic }}" alt="next">{% endif %}
         {% if lastComic %}<area shape="rect" coords="415,0,483,56" href="/comic/{{ lastComic }}" alt="last">{% endif %}
     </map>
-<h3>{{ comic.title }}</h3>
+	<div class = "merch">
+	<a href="http://www.shareasale.com/r.cfm?B=793288&U=1186465&M=5108&urlink="><img src="{{ static }}/merch.png" class="merch" /></a>
+	</div>
+	<h3>{{ comic.title }}</h3>
     {% for image in comic.images %}
     {% if image.link %}
     <a href="{{ image.link }}">
@@ -35,12 +55,20 @@
     {% endfor %}
     <div id="bottom">
         {% if comic.explanation %}
-        <div id=explanation onclick="showExplanation()">
-        <strong>Didn't get the joke?</strong>
-        </div>
-        <div id=explainHidden>
-        {{ comic.explanation|safe }}
-        </div>
+			<div id=explanation onclick="showExplanation()">
+			<strong>Didn't get the joke?</strong>
+			</div>
+			<div id=explainHidden>
+			{{ comic.explanation|safe }}
+			</div>
+		{% endif %}
+		{% if philosophers %}
+			<div id="philosophers-comic">
+				Philosophers in this comic:
+				{% for philosopher in philosophers %}
+					<a href="{{ philosopher.link }}" {% if philosopher.bio %}title = "{{philosopher.bio}}"{% endif %}>{{ philosopher.name }}</a>{% if not loop.last %}, {% endif %}
+				{% endfor %}
+			</div>
         {% endif %}
         <p class="permalink">Permanent Link to this Comic: {{ comic.link }}</p>
         <a href="http://www.patreon.com/ExistentialComics">Support the comic on Patreon</a>
@@ -73,7 +101,34 @@
             {% if nextComic %}<area shape="rect" coords="305,0,405,56" href="/comic/{{ nextComic }}" alt="next">{% endif %}
             {% if lastComic %}<area shape="rect" coords="415,0,483,56" href="/comic/{{ lastComic }}" alt="last">{% endif %}
         </map>
-        {% if showAds %}<center><script type="text/javascript" src="http://ap.lijit.com///www/delivery/fpi.js?z=250941&u=existentialcomics&width=728&height=90"></script></center>{% endif %}
+        {% if showAds %}
+<center>
+<!-- Project Wonderful Ad Box Loader -->
+<script type="text/javascript">
+   (function(){function pw_load(){
+      if(arguments.callee.z)return;else arguments.callee.z=true;
+      var d=document;var s=d.createElement('script');
+      var x=d.getElementsByTagName('script')[0];
+      s.type='text/javascript';s.async=true;
+      s.src='//www.projectwonderful.com/pwa.js';
+      x.parentNode.insertBefore(s,x);}
+   if (window.attachEvent){
+    window.attachEvent('DOMContentLoaded',pw_load);
+    window.attachEvent('onload',pw_load);}
+   else{
+    window.addEventListener('DOMContentLoaded',pw_load,false);
+    window.addEventListener('load',pw_load,false);}})();
+</script>
+<!-- End Project Wonderful Ad Box Loader -->
+<!-- Project Wonderful Ad Box Code -->
+<div id="pw_adbox_76971_5_0"></div>
+<script type="text/javascript"></script>
+<noscript><map name="admap76971" id="admap76971"><area href="http://www.projectwonderful.com/out_nojs.php?r=0&c=0&id=76971&type=5" shape="rect" coords="0,0,728,90" title="" alt="" target="_blank" /></map>
+<table cellpadding="0" cellspacing="0" style="width:728px;border-style:none;background-color:#ffffff;"><tr><td><img src="http://www.projectwonderful.com/nojs.php?id=76971&type=5" style="width:728px;height:90px;border-style:none;" usemap="#admap76971" alt="" /></td></tr><tr><td style="background-color:#ffffff;" colspan="1"><center><a style="font-size:10px;color:#0000ff;text-decoration:none;line-height:1.2;font-weight:bold;font-family:Tahoma, verdana,arial,helvetica,sans-serif;text-transform: none;letter-spacing:normal;text-shadow:none;white-space:normal;word-spacing:normal;" href="http://www.projectwonderful.com/advertisehere.php?id=76971&type=5" target="_blank">Ads by Project Wonderful!  Your ad here, right now: $0</a></center></td></tr></table>
+</noscript>
+<!-- End Project Wonderful Ad Box Code -->
+</center>
+{% endif %}
         <div class="links">
             <div class="column">
                 <h4>Comics I enjoy:</h4>
@@ -92,6 +147,9 @@
                     </li>
                     <li>
                         <a href="http://nedroid.com/">Nedroid Picture Diary</a>
+                    </li>
+                    <li>
+                        <a href="http://www.harkavagrant.com/">Hark! A Vagrant</a>
                     </li>
                 </ul>
             </div>
@@ -113,6 +171,9 @@
                     <li>
                         <a href="http://www.critical-theory.com">Critical-Theory</a>
                     </li>
+                    <li>
+                        <a href="http://www.newphilosopher.com">New Philosopher</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -123,6 +184,8 @@
             <ul class="nav">
               <li> <a href="/archive">Archive</a> </li>
               <li> <a href="http://www.patreon.com/ExistentialComics">Patreon</a> </li>
+              <li> <a href="/unofficialComics">Unofficial Comics</a> </li>
+              <li> <a href="/blog">Blog</a> </li>
             </ul>
         </div>
     </div>

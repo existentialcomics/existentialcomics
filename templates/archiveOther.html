@@ -9,16 +9,14 @@
 <div id="content" class="page">
     <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
     </br>
-    <div>
-    <h3>Unofficial comics:</h3>
+    <div id="date-comics" class="column">
+    <h3>Unofficial Comics:</h3>
     <ul>
     {% for comic in comics %}
-        <li> <a href = "{{ comic.link }}"}>{{ comic.title }}</a>{% for lang in comic.altLangs %}{% if loop.first %} ({% endif %}<a href="{{ lang.link }}">{{ lang.langName }}</a>{% if loop.first %}){% endif %}{% endfor %}</li>
+        <li><a href = "{{ comic.link }}"}>{{ comic.title }}</a>{% for lang in comic.altLangs %}{% if loop.first %} ({% endif %}<a href="{{ lang.link }}">{{ lang.langName }}</a>{% if loop.first %}){% endif %}{% endfor %}</li>
     {% endfor %}
     </ul>
     </div>
-</div>
-
 
     <div id="bottom">
         <div class="footer">
@@ -27,7 +25,10 @@
             </p>
             <ul class="nav">
 	      <li> <a href="/">Home</a> </li>
-              <li> Archive </li>
+      	  <li> <a href="/archive">Archive</a> </li>
+      	  <li> <a href="http://www.patreon.com/ExistentialComics">Patreon</a> </li>
+      	  <li> Unofficial Comics </li>
+              <li> <a href="/blog">Blog</a> </li>
             </ul>
         </div>
     </div>

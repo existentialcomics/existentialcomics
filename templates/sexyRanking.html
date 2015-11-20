@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Sexy Philosophers{% endblock %}
+{% block head %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"/>
+<link rel="shortcut icon" href="{{ static }}/favicon.ico">
+{% endblock %}
+{% block content %}
+<div id="content">
+    {% if showAds %}<center><script type="text/javascript" src="http://ap.lijit.com///www/delivery/fpi.js?z=250940&u=existentialcomics&width=728&height=90"></script></center>{% endif %}
+    <a href="/"><img src="{{ static }}/sexyHeader.png" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a><br>
+
+{% for philosopher in philosophers %}
+<table class="ranking">
+<td>
+<tr><font color="{{ philosopher.color }}">{{ philosopher.score }} - </font></tr>
+<tr><a href="/vote/{{ philosopher.philosopherId }}"><font color="{{ philosopher.color }}">{{ philosopher.name }}</font></a></tr>
+<br>
+</td>
+{% endfor %}  
+
+        <div class="footer">
+		<a href = "/vote">Back to voting!</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

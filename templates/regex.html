@@ -1,0 +1,17 @@
+<html>
+Regex Golf!
+
+<form method="POST" action = "" autocomplete='off'>
+<table>
+	regex: {{ regex }}<br/>
+	<input type="text" name="regex" id="regex" value=""><br/>
+	{% for match in matches['match'] %}
+	{{ match|safe }}<br/>
+	{% endfor %}
+	<br/>----------------------<br/>
+	{% for match in matches['dont'] %}
+	{{ match|safe }}<br/>
+	{% endfor %}
+	<input type="submit" value="submit">
+</html>
+</form>

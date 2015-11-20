@@ -7,5 +7,5 @@ class Blog:
         self.blogId = blogId
         self.pubDate = pubDate
         cleanTitle = re.sub('\s', '_', title)
-        cleanTitle = re.sub('[^A-Za-z0-0]', '', cleanTitle)
+        cleanTitle = re.sub('[^A-Za-z0-0_]', '', cleanTitle)
         self.link = "http://" + s.DOMAIN + '/blog/' + str(blogId) + '/' + cleanTitle

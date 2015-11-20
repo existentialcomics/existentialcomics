@@ -1,0 +1,3 @@
+import dao
+
+dao.updateScores()
