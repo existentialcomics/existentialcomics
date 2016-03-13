@@ -2,6 +2,8 @@ from flask import Flask, render_template, url_for, g, Response, request, make_re
 #from flaskext.markdown import Markdown
 #import markdown
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.cache import Cache
+from werkzeug.contrib.cache import MemcachedCache
 
 import settings as s
 import sys
@@ -11,7 +13,13 @@ sys.setdefaultencoding('latin-1')
 app = Flask(__name__, static_folder=s.STATIC_URL)
 app.debug = True
 #Markdown(app)
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost:3036/comic'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+app.config['CACHE_TYPE'] = 'memcached'
+app.config['CACHE_MEMCACHED_SERVERS'] = ['localhost:11211']
+
+app.cache = Cache(app)
+cache = MemcachedCache(['localhost:11211'])
 db = SQLAlchemy(app)
 
 @app.route("/")
@@ -25,18 +33,10 @@ def home():
         return sexyRandom()
     return serveComic(dao.getMaxComic())
 
-@app.route('/regex', methods=['GET', 'POST'])
-def regexgolf():
-	import dao
-	level = "test"
-	regex = ""
-	if request.method == 'POST':
-		matches = dao.testRegexMatches(level, request.form['regex'])
-		regex = request.form['regex']
-	else:
-		matches = dao.getRegexMatches(level)    
-	return render_template('regex.html', matches=matches, regex=regex)
-    
+@app.route('/store')
+def store():
+    return redirect('http://www.shareasale.com/r.cfm?B=793288&U=1186465&M=5108&urlink=', code=302)
+
 @app.route('/rss.xml')
 def rss():
     import dao
@@ -111,6 +111,7 @@ def sexyUpload():
     return render_template('sexyUploadDone.html', titleImg=titleImg, static=s.STATIC_URL, showAds = s.SHOW_ADS)
 
 @app.route('/blog/<blogId>/<blogTitle>')
+@app.cache.memoize(50)
 def blog(blogId=None, blogTitle=None):
     import dao
 
@@ -163,14 +164,17 @@ def serveArchiveOther():
     return render_template('archiveOther.html', comics=comics, titleImg=titleImg, static=s.STATIC_URL)
 
 @app.route('/archive')
+@app.cache.memoize(50)
 def serveArchiveDefault():
     return serveArchive('byCategory')
 
 @app.route('/archive/<displayMode>/<minorSort>')
+@app.cache.memoize(50)
 def serveArchiveSorted(displayMode = "byCategory", minorSort = None):
     return serveArchive(displayMode, minorSort)
 
 @app.route('/archive/<displayMode>')
+@app.cache.memoize(50)
 def serveArchive(displayMode = "byCategory", minorSort = None):
     import dao
 
@@ -240,6 +244,7 @@ def serveArchive(displayMode = "byCategory", minorSort = None):
         return render_template('archiveTopics.html', topics=topics, titleImg=titleImg, static=s.STATIC_URL)
 
 @app.route('/philosopher/<philosopherName>')
+@app.cache.memoize(50)
 def servePhilosopher(philosopherName=None, lang='en'):
     import dao
     import urllib
@@ -259,7 +264,9 @@ def serveComicLang(curComic=None, lang='es'):
     return serveComic(curComic, lang)
 
 @app.route('/comic/<curComicInput>')
+@app.cache.memoize(50)
 def serveComic(curComicInput=None, lang='en'):
+
     import dao
  
     # cookie which tracks which comics have been seen already   
@@ -280,7 +287,7 @@ def serveComic(curComicInput=None, lang='en'):
         return page_not_found(None) 
    
     philosophers = dao.getPhilosophersByComic(comic.comicId)
-	
+
     navMaps = []
     titleMaps = []
 
@@ -327,6 +334,7 @@ def serveComic(curComicInput=None, lang='en'):
     return resp
 
 @app.route('/comic/other/<curComicInput>')
+@app.cache.memoize(50)
 def serveAlternateComic(curComicInput=None, lang='en'):
     import dao
     curComic = None
