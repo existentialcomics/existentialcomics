@@ -95,10 +95,10 @@ def getAllSexyPhilosophers():
     from model.sexyPhilosopher import SexyPhilosopher
     c = get_db()
     philosophers = []
-    t = text('SELECT philosopher_id, name, image, score FROM sexy_philosopher ORDER BY score DESC')
+    t = text('SELECT philosopher_id, name, image, score, vote_total FROM sexy_philosopher ORDER BY score DESC')
     results = c.execute(t)
     for row in results:
-        philosophers.append(SexyPhilosopher(row['philosopher_id'], row['name'], row['image'], row['score']))
+        philosophers.append(SexyPhilosopher(row['philosopher_id'], row['name'], row['image'], row['score'], row['vote_total']))
     return philosophers    
 
 def addVote(philosopherId, score, ip, proxy):
