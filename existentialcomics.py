@@ -19,8 +19,11 @@ app.config['CACHE_TYPE'] = 'memcached'
 app.config['CACHE_MEMCACHED_SERVERS'] = ['localhost:11211']
 
 app.cache = Cache(app)
-cache = MemcachedCache(['localhost:11211'])
+#cache = MemcachedCache(['localhost:11211'])
 db = SQLAlchemy(app)
+
+def is_cache_off():
+    return True
 
 @app.route("/")
 def home():
@@ -111,7 +114,7 @@ def sexyUpload():
     return render_template('sexyUploadDone.html', titleImg=titleImg, static=s.STATIC_URL, showAds = s.SHOW_ADS)
 
 @app.route('/blog/<blogId>/<blogTitle>')
-@app.cache.memoize(50)
+@app.cache.memoize(50, unless=is_cache_off)
 def blog(blogId=None, blogTitle=None):
     import dao
 
@@ -164,17 +167,17 @@ def serveArchiveOther():
     return render_template('archiveOther.html', comics=comics, titleImg=titleImg, static=s.STATIC_URL)
 
 @app.route('/archive')
-@app.cache.memoize(50)
+@app.cache.memoize(50, unless=is_cache_off)
 def serveArchiveDefault():
     return serveArchive('byCategory')
 
 @app.route('/archive/<displayMode>/<minorSort>')
-@app.cache.memoize(50)
+@app.cache.memoize(50, unless=is_cache_off)
 def serveArchiveSorted(displayMode = "byCategory", minorSort = None):
     return serveArchive(displayMode, minorSort)
 
 @app.route('/archive/<displayMode>')
-@app.cache.memoize(50)
+@app.cache.memoize(50, unless=is_cache_off)
 def serveArchive(displayMode = "byCategory", minorSort = None):
     import dao
 
@@ -244,7 +247,7 @@ def serveArchive(displayMode = "byCategory", minorSort = None):
         return render_template('archiveTopics.html', topics=topics, titleImg=titleImg, static=s.STATIC_URL)
 
 @app.route('/philosopher/<philosopherName>')
-@app.cache.memoize(50)
+@app.cache.memoize(50, unless=is_cache_off)
 def servePhilosopher(philosopherName=None, lang='en'):
     import dao
     import urllib
@@ -264,7 +267,7 @@ def serveComicLang(curComic=None, lang='es'):
     return serveComic(curComic, lang)
 
 @app.route('/comic/<curComicInput>')
-@app.cache.memoize(50)
+@app.cache.memoize(50, unless=is_cache_off)
 def serveComic(curComicInput=None, lang='en'):
 
     import dao
@@ -334,7 +337,7 @@ def serveComic(curComicInput=None, lang='en'):
     return resp
 
 @app.route('/comic/other/<curComicInput>')
-@app.cache.memoize(50)
+@app.cache.memoize(50, unless=is_cache_off)
 def serveAlternateComic(curComicInput=None, lang='en'):
     import dao
     curComic = None

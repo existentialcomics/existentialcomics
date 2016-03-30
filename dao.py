@@ -5,7 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask import Markup
 from sqlalchemy import create_engine, text
 
-engine = create_engine('mysql://' + s.MYSQL_USER + ':' + s.MYSQL_PASSWORD + '@' + s.MYSQL_HOST + '/' + s.MYSQL_DB, pool_size=100, max_overflow=150)
+engine = create_engine('mysql://' + s.MYSQL_USER + ':' + s.MYSQL_PASSWORD + '@' + s.MYSQL_HOST + '/' + s.MYSQL_DB, pool_size=50, max_overflow=100, pool_recycle=3600)
 
 def get_db():
     return engine.connect()
@@ -53,13 +53,14 @@ def getRegexMatches(level):
 
 def updateScores():
     c = get_db()
-    t = "select avg(score) as avgScore, philosopher_id from sexy_votes GROUP BY philosopher_id"
+    t = "select avg(score) as avgScore, philosopher_id, count(*) as votes from sexy_votes GROUP BY philosopher_id"
     results = c.execute(t)
-    tu = text("UPDATE sexy_philosopher SET score = :score WHERE philosopher_id = :philosopherId")
+    tu = text("UPDATE sexy_philosopher SET score = :score, vote_total = :votes WHERE philosopher_id = :philosopherId")
     for row in results:
         score = "%0.1f" % row['avgScore']
+	votes = row['votes']
         philosopherId = row['philosopher_id']
-        c.execute(tu, score = score, philosopherId = philosopherId)
+        c.execute(tu, score = score, philosopherId = philosopherId, votes = votes)
     return 0
 
 def getRandomSexyPhilosopher():
@@ -78,15 +79,17 @@ def getSexyPhilosopher(philosopherId):
     name  = None
     image = None
     score = None
+    voteTotal = 0
     
-    t = text('SELECT name, image, score FROM sexy_philosopher WHERE philosopher_id = :philosopherId')
+    t = text('SELECT name, image, score, vote_total FROM sexy_philosopher WHERE philosopher_id = :philosopherId')
     results = c.execute(t, philosopherId = philosopherId)
     for row in results:
         name = row['name']
         image = row['image']
         score = row['score']
+        voteTotal = row['vote_total']
 
-    return SexyPhilosopher(philosopherId, name, image, score)
+    return SexyPhilosopher(philosopherId, name, image, score, voteTotal)
 
 def getAllSexyPhilosophers():
     from model.sexyPhilosopher import SexyPhilosopher
