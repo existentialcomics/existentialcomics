@@ -4,6 +4,7 @@ from flask import Flask, render_template, url_for, g, Response, request, make_re
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.cache import Cache
 from werkzeug.contrib.cache import MemcachedCache
+from datetime import date
 
 import settings as s
 import sys
@@ -269,9 +270,13 @@ def serveComicLang(curComic=None, lang='es'):
 @app.route('/comic/<curComicInput>')
 @app.cache.memoize(50, unless=is_cache_off)
 def serveComic(curComicInput=None, lang='en'):
-
     import dao
- 
+
+    d0 = date(2013, 11, 12)
+    today = date.today()
+    delta = today - d0
+    kantDays = delta.days
+
     # cookie which tracks which comics have been seen already   
     seenComics = request.cookies.get('seen')
 
@@ -331,7 +336,7 @@ def serveComic(curComicInput=None, lang='en'):
     if seen == 0:
         seenAry.append(curComic)     
 
-    resp = make_response(render_template('comic.html', comic=comic, philosophers=philosophers,titleImg=titleImg, navImg=navImg, titleMaps=titleMaps, firstComic=firstComic, prevComic=prevComic, nextComic=nextComic, lastComic=lastComic, langUrl = langUrl, static=s.STATIC_URL, showAds = s.SHOW_ADS))
+    resp = make_response(render_template('comic.html', comic=comic, philosophers=philosophers,titleImg=titleImg, navImg=navImg, titleMaps=titleMaps, firstComic=firstComic, prevComic=prevComic, nextComic=nextComic, lastComic=lastComic, langUrl = langUrl, static=s.STATIC_URL, showAds = s.SHOW_ADS, kantDays=kantDays))
     resp.set_cookie('seen', ':'.join(str(x) for x in seenAry))
     resp.set_cookie('len', str(len(seenSet)))
     return resp
