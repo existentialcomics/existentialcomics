@@ -31,10 +31,11 @@ def home():
     import dao
     import re
     p = re.compile('.*philosophy.sexy', re.IGNORECASE)
-    host = request.headers['Host']
-    m = p.match(host)
-    if (m):
-        return sexyRandom()
+    if ('Host' in request.headers):
+        host = request.headers['Host']
+        m = p.match(host)
+        if (m):
+            return sexyRandom()
     return serveComic(dao.getMaxComic())
 
 @app.route('/store')
@@ -296,6 +297,8 @@ def serveComic(curComicInput=None, lang='en'):
    
     philosophers = dao.getPhilosophersByComic(comic.comicId)
 
+    joke = dao.getRandomJoke()
+
     navMaps = []
     titleMaps = []
 
@@ -336,7 +339,7 @@ def serveComic(curComicInput=None, lang='en'):
     if seen == 0:
         seenAry.append(curComic)     
 
-    resp = make_response(render_template('comic.html', comic=comic, philosophers=philosophers,titleImg=titleImg, navImg=navImg, titleMaps=titleMaps, firstComic=firstComic, prevComic=prevComic, nextComic=nextComic, lastComic=lastComic, langUrl = langUrl, static=s.STATIC_URL, showAds = s.SHOW_ADS, kantDays=kantDays))
+    resp = make_response(render_template('comic.html', comic=comic, philosophers=philosophers,titleImg=titleImg, navImg=navImg, titleMaps=titleMaps, firstComic=firstComic, prevComic=prevComic, nextComic=nextComic, lastComic=lastComic, langUrl = langUrl, static=s.STATIC_URL, showAds = s.SHOW_ADS, kantDays=kantDays, joke=joke))
     resp.set_cookie('seen', ':'.join(str(x) for x in seenAry))
     resp.set_cookie('len', str(len(seenSet)))
     return resp
@@ -356,6 +359,11 @@ def serveAlternateComic(curComicInput=None, lang='en'):
     titleImg = s.STATIC_URL + '/title.jpg'
     return make_response(render_template('comicOther.html', comic=comic, titleImg=titleImg, static=s.STATIC_URL, showAds = s.SHOW_ADS))
 
+@app.route('/joke/random')
+def random_joke():
+	import dao
+	joke = dao.getRandomJoke()
+	return joke
 
 @app.errorhandler(404)
 def page_not_found(e):

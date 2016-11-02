@@ -51,6 +51,26 @@ def getRegexMatches(level):
 		resultsMatches['dont'].append(row['dont_match_word'])
 	return resultsMatches
 
+def getRandomJoke():
+    import random
+    c = get_db()
+    maxId = 0
+    t = text('SELECT MAX(joke_id) as max_id FROM jokes')
+    results = c.execute(t)
+    for row in results:
+        maxId = row['max_id']
+    return getJoke(random.randint(1,maxId))
+
+
+def getJoke(jokeId):
+    c = get_db()
+    t = text('SELECT joke FROM jokes WHERE joke_id = :joke_id')
+    results = c.execute(t, joke_id = jokeId)
+    textjoke = ""
+    for row in results:
+        textjoke = row['joke']
+    return textjoke
+
 def updateScores():
     c = get_db()
     t = "select avg(score) as avgScore, philosopher_id, count(*) as votes from sexy_votes GROUP BY philosopher_id"

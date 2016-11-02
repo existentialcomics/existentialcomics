@@ -8,6 +8,14 @@
 <meta property="og:image" content="{{ comic.images[0].filename}}" />
 <meta property="og:url" content="{{comic.link}}" />
 <meta property="og:description" content="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes" />
+<meta name="viewport" content="width=1000, initial-scale=1">
+
+<!-- Twitter Card data -->
+<meta name="twitter:card" content="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes">
+<meta name="twitter:site" content="@existentialcoms">
+<meta name="twitter:title" content="{{ comic.title}}">
+<meta name="twitter:description" content="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes">
+<meta name="twitter:creator" content="@existentialcoms">
 
 {% endblock %}
 {% block content %}
@@ -25,7 +33,7 @@
 </script>
 </center>
 {% endif %}
-    <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
+    <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes" title="{{ joke }}"></a>
     
     <div class = "counter" style="background-image: url({{ static }}/safety.png)">
     <h1 class = "counter-num">{{ kantDays }}</h1>
@@ -82,8 +90,7 @@
 			</div>
         {% endif %}
         <p class="permalink">Permanent Link to this Comic: {{ comic.link }}</p>
-<!--        <a href="http://www.patreon.com/ExistentialComics">Support the comic on Patreon</a> -->
-	<a href="https://affectconf.com/">Also, be sure to check out Affect, my wife's upcoming conference on the work behind social change; in Portland, Oregon</a>
+        <a href="http://www.patreon.com/ExistentialComics">Support the comic on Patreon</a>
         <div id="share" style='background-image:url({{ static }}/share_42.jpg);'>
             <div style='position:absolute; bottom:0'>
                 <table>
