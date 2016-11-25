@@ -5,7 +5,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask import Markup
 from sqlalchemy import create_engine, text
 
-engine = create_engine('mysql://' + s.MYSQL_USER + ':' + s.MYSQL_PASSWORD + '@' + s.MYSQL_HOST + '/' + s.MYSQL_DB, pool_size=50, max_overflow=100, pool_recycle=3600)
+engine = create_engine('mysql://' + s.MYSQL_USER + ':' + s.MYSQL_PASSWORD + '@' + s.MYSQL_HOST + '/' + s.MYSQL_DB, pool_size=20, max_overflow=40, pool_recycle=3600)
 
 def get_db():
     return engine.connect()
