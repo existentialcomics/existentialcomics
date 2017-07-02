@@ -354,7 +354,7 @@ def getComics(comicId = None, lang="en", orderBy = "date", table = "comic", imag
     elif orderBy == "popularity":
         orderClause = "ORDER BY popularity DESC"
 
-    t = text("SELECT comic_id, title, DATE_FORMAT(pub_date, '%a, %d %b %Y %T') as pub_date_rss, explanation, type FROM " + table + " WHERE lang = :lang " + idClause + orderClause) 
+    t = text("SELECT comic_id, title, DATE_FORMAT(pub_date, '%a, %d %b %Y %T') as pub_date_rss, explanation, type FROM " + table + " WHERE status = 'active' AND lang = :lang " + idClause + orderClause) 
     results = c.execute(t, comicId = comicId, lang = lang)
 
     if results is None:
@@ -402,6 +402,6 @@ def getMaxBlog():
 
 def getMaxComic():    
     c = get_db()
-    results = c.execute('SELECT MAX(comic_id) as comic_id FROM comic')
+    results = c.execute('SELECT MAX(comic_id) as comic_id FROM comic WHERE status = "active"')
     for row in results:
         return row['comic_id']
