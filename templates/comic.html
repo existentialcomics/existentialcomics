@@ -8,7 +8,6 @@
 <meta property="og:image" content="{{ comic.images[0].filename}}" />
 <meta property="og:url" content="{{comic.link}}" />
 <meta property="og:description" content="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes" />
-<meta name="viewport" content="width=1000, initial-scale=1">
 
 <!-- Twitter Card data -->
 <meta name="twitter:card" content="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes">
@@ -74,8 +73,10 @@
     {% endfor %}
     <div id="bottom">
         {% if comic.explanation %}
-			<div id=explanation onclick="showExplanation()">
-			<strong>Didn't get the joke?</strong>
+		<!-- <div id=explanation onclick="showExplanation()"> -->
+			<div id=explanation>
+			{{ comic.explanation|safe }}
+			<!-- <strong>Didn't get the joke?</strong> -->
 			</div>
 			<div id=explainHidden>
 			{{ comic.explanation|safe }}
