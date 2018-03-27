@@ -94,6 +94,15 @@ def sexyMain(philosopherId = None):
     
     return render_template('sexy.html', titleImg=titleImg, philosopher=philosopher, prevPhilosopher = prevPhilosopher, name = philosopher.name, static=s.STATIC_URL, showAds = s.SHOW_ADS)
 
+@app.route('/comic/secret_url')
+def secretUrl():
+    d0 = date(2013, 11, 12)
+    today = date.today()
+    delta = today - d0
+    kantDays = delta.days
+
+    return render_template('secret.html', static=s.STATIC_URL, showAds = s.SHOW_ADS, kantDays=kantDays)
+
 @app.route('/ranking')
 def sexyRanking():
     import dao
