@@ -28,8 +28,10 @@
     {% endfor %}
     <div id="bottom">
         {% if comic.explanation %}
-        <div id=explanation onclick="showExplanation()">
-        <strong>Didn't get the joke?</strong>
+		<!-- <div id=explanation onclick="showExplanation()"> -->
+        <div id=explanation>
+        {{ comic.explanation|safe }}
+        <!-- <strong>Didn't get the joke?</strong> -->
         </div>
         <div id=explainHidden>
         {{ comic.explanation|safe }}
