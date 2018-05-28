@@ -94,7 +94,7 @@ def sexyMain(philosopherId = None):
     
     return render_template('sexy.html', titleImg=titleImg, philosopher=philosopher, prevPhilosopher = prevPhilosopher, name = philosopher.name, static=s.STATIC_URL, showAds = s.SHOW_ADS)
 
-@app.route('/comic/secret_url')
+@app.route('/comics/319')
 def secretUrl():
     d0 = date(2013, 11, 12)
     today = date.today()
