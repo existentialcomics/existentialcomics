@@ -387,7 +387,7 @@ def getComics(comicId = None, lang="en", orderBy = "date", table = "comic", imag
 def getLatestComics(comicsToGet):
     c = get_db()
     
-    t = text('SELECT comic_id FROM comic WHERE lang = "en" ORDER BY comic_id DESC limit :limit')
+    t = text('SELECT comic_id FROM comic WHERE lang = "en" AND status = "active" ORDER BY comic_id DESC limit :limit')
     results = c.execute(t, limit = comicsToGet)
     comics = []
     for row in results:
