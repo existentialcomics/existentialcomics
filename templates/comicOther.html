@@ -7,7 +7,19 @@
 {% endblock %}
 {% block content %}
 <div id="content">
-    {% if showAds %}<center><script type="text/javascript" src="http://ap.lijit.com///www/delivery/fpi.js?z=250940&u=existentialcomics&width=728&height=90"></script></center>{% endif %}
+    {% if showAds %}
+    <center>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- comic-top -->
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:728px;height:90px"
+         data-ad-client="ca-pub-2476863297975868"
+         data-ad-slot="8363264631"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    </center>
+    {% endif %}
     <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
 <p>This is an unofficial comic, to go back to <a href = "/unofficialComics">the unoffical archive click here</a><p>
 <h3>{{ comic.title }}</h3>
@@ -61,7 +73,9 @@
                 </table>
             </div>
         </div>
-        {% if showAds %}<center><script type="text/javascript" src="http://ap.lijit.com///www/delivery/fpi.js?z=250941&u=existentialcomics&width=728&height=90"></script></center>{% endif %}
+        {% if showAds %}
+    <center><script type="text/javascript" src="http://ap.lijit.com/www/delivery/fpi.js?z=277776&u=existentialcomics&width=728&height=90"></script></center>
+{% endif %}
         <div class="links">
             <div class="column">
                 <h4>Comics I enjoy:</h4>
