@@ -11,7 +11,7 @@
         <link>http://existentialcomics.com/comic/{{ comic.comicId }}</link>
         <guid>http://existentialcomics.com/comic/{{ comic.comicId }}</guid>
         <description>{% for image in comic.images %}
-            &lt;img src="{{ image.filename }}"{% if image.altText %} alt="{{ image.altText }}" title="{{ comic.altText }}"{% endif %}&gt;
+            &lt;img src="{{ image.filename }}"{% if image.altText %} alt="{{ image.altText|replace('"','\\"') }}" title="{{ image.altText|replace('"','\\"') }}"{% endif %}&gt;
             {% if not loop.last %}&lt;br /&gt;&lt;hr /&gt;&lt;br /&gt;{% endif %}{% endfor %}
         </description>
         <pubDate>{{ comic.pubDate }} PDT</pubDate>
