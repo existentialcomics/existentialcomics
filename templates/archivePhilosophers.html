@@ -15,8 +15,9 @@
     <h3>Philosophers:</h3>
     <ul>
     {% for philosopher in philosophers %}
-        <li> <span>{{philosopher.birthYear}} &ndash; {{philosopher.deathYear}}</span> <a href="{{ philosopher.link }}" {% if philosopher.bio %}title = "{{philosopher.bio}}"{% endif %}>{{ philosopher.name }}</a> {% for comic in philosopher.comics %}{% if loop.first %} ({% endif %}<a href="{{ comic.link }}" title="{{ comic.title }}">{{ comic.comicId }}</a>{% if loop.last %}){% else %},{% endif %}{% endfor %}</li>
-    {% endfor %}
+        <li> <span>{{philosopher.birthYear}} &ndash; {{philosopher.deathYear}}</span> <a href="{{ philosopher.link }}" {% if philosopher.bio %}title = "{{philosopher.bio}}"{% endif %}>{{ philosopher.name }}</a> {% for comic in philosopher.comics %}
+{% if loop.first %} ({% endif %} <a href="{{ comic.link }}" title="{{ comic.title }}">{{ comic.comicId }}</a>{% if loop.last %}){% else %}{% if loop.index % 10 == 0 %}<br />{% else %},{% endif %}{% endif %}{% endfor %}</li>
+{% endfor %}
     </ul>
     </div>
     <div id="non-philsophers" class="column">

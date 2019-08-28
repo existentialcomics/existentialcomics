@@ -83,6 +83,65 @@ def updateScores():
         c.execute(tu, score = score, philosopherId = philosopherId, votes = votes)
     return 0
 
+def checkQuestion(questionId):
+    c = get_db()
+    t = text("SELECT philosopher_id FROM quiz_questions ques LEFT JOIN philosopher_quotes q ON ques.quote_id = q.quote_id WHERE question_id = :questionId")
+    answer = None
+    results = c.execute(t, questionId=questionId)
+    for row in results:
+        answer = row['philosopher_id']
+
+    return answer
+
+def getNextQuestion(quizId, lastQuestionId = -1):
+    c = get_db()
+    t = text("SELECT * FROM quiz_questions q LEFT JOIN philosopher_quotes pq ON q.quote_id = pq.quote_id WHERE quiz_id = :quizId AND question_id > :lastQuestionId LIMIT 1")
+
+    lastRow = None
+    results = c.execute(t, quizId = quizId, lastQuestionId = lastQuestionId)
+    for row in results:
+        lastRow = row
+
+    return lastRow
+
+def getLastQuestion(quizId):
+    c = get_db()
+    t = text("SELECT max(question_id) as maxId FROM quiz_questions WHERE quiz_id = :quizId")
+    lastRow = None
+    results = c.execute(t, quizId = quizId)
+    for row in results:
+        lastRow = row['maxId']
+
+    return lastRow
+
+def getQuestionNumber(quizId):
+    c = get_db()
+    t = text("SELECT count(question_id) as maxId FROM quiz_questions WHERE quiz_id = :quizId")
+    lastRow = None
+    results = c.execute(t, quizId = quizId)
+    for row in results:
+        lastRow = row['maxId']
+
+    return lastRow
+
+def getQuestion(questionId):
+    c = get_db()
+    t = text("SELECT ques.*, q.philosopher_id as answer, q.quote FROM quiz_questions ques LEFT JOIN philosopher_quotes q ON ques.quote_id = q.quote_id WHERE question_id = :questionId")
+
+    lastRow = None
+    results = c.execute(t, questionId = questionId)
+    for row in results:
+        lastRow = row
+
+    return lastRow
+
+def getQuestions(quizId):
+    c = get_db()
+    t = text("SELECT ques.*, q.philosopher_id as answer, q.quote FROM quiz_questions ques LEFT JOIN philosopher_quotes q ON ques.quote_id = q.quote_id WHERE quiz_id = :quizId")
+
+    results = c.execute(t, quizId = quizId)
+    return results
+
 def getRandomSexyPhilosopher():
     import random
     c = get_db()
@@ -110,6 +169,28 @@ def getSexyPhilosopher(philosopherId):
         voteTotal = row['vote_total']
 
     return SexyPhilosopher(philosopherId, name, image, score, voteTotal)
+
+def updateText(imageId, descriptiveText):
+    c = get_db()
+    t = text('UPDATE image set descriptive_text = :descriptiveText, descriptive_text_reviewed = 1 WHERE image_id = :image_id')
+    results = c.execute(t, descriptiveText=descriptiveText.encode('utf-8'), image_id=imageId)
+
+def suggestText(imageId, descriptiveText):
+    c = get_db()
+    t = text('INSERT INTO image_description_edit (image_id, description) values (:image_id, :descriptiveText)')
+    results = c.execute(t, descriptiveText=descriptiveText.encode('utf-8'), image_id=imageId)
+
+def suggestTextPageload(comicId):
+    c = get_db()
+    t = text('INSERT INTO image_description_formloads (comic_id) values (:comic_id)')
+    results = c.execute(t, comic_id=comicId)
+
+def getReviewableComicId():
+    c = get_db()
+    t = text('SELECT c.comic_id FROM comic c INNER JOIN image i ON c.comic_id = i.comic_id AND i.descriptive_text_reviewed = 0 AND (SELECT count(*) FROM image_description_edit e WHERE i.image_id = e.image_id) = 0 AND (SELECT COUNT(*) FROM image_description_formloads f WHERE f.comic_id = c.comic_id AND time_loaded > DATE_SUB(NOW(), INTERVAL 30 MINUTE)) = 0 ORDER BY RAND() limit 1')
+    results = c.execute(t)
+    for row in results:
+        return row['comic_id']
 
 def getAllSexyPhilosophers():
     from model.sexyPhilosopher import SexyPhilosopher
@@ -374,11 +455,15 @@ def getComics(comicId = None, lang="en", orderBy = "date", table = "comic", imag
         comicType = row['type']
         comicIdRow = row['comic_id']
 
-        t = text('SELECT filename, image_id, alt_text, external_link FROM ' + imageTable + ' WHERE comic_id = :comicId AND lang = :lang')
+        t = text('SELECT filename, image_id, alt_text, descriptive_text, descriptive_text_reviewed, external_link FROM ' + imageTable + ' WHERE comic_id = :comicId AND lang = :lang')
         results = c.execute(t, comicId = comicId, lang = lang)
         images = []
         for row in results:
-            newImage = Image(s.STATIC_URL + row['filename'], comicId, row['image_id'], row['alt_text'], row['external_link'])
+            descTextRow = ""
+            if (row['descriptive_text_reviewed'] == 1):
+                descTextRow = row['descriptive_text']
+
+            newImage = Image(s.STATIC_URL + row['filename'], comicId, row['image_id'], row['alt_text'], descTextRow, row['external_link'])
             images.append(newImage)
 
         comics.append(Comic(title, images, comicIdRow, pubDate, explanation, comicType))

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, g, Response, request, make_response, redirect
+from flask import Flask, render_template, url_for, g, Response, request, make_response, redirect, session
 #from flaskext.markdown import Markdown
 #import markdown
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -10,9 +10,13 @@ import settings as s
 import sys
 reload(sys)
 sys.setdefaultencoding('latin-1')
+#sys.setdefaultencoding('utf8')
 
 app = Flask(__name__, static_folder=s.STATIC_URL)
 app.debug = True
+app.secret_key = 'ssefsefsa231423ey'
+app.config['SESSION_TYPE'] = 'filesystem'
+
 #Markdown(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -37,6 +41,73 @@ def home():
         if (m):
             return sexyRandom()
     return serveComic(dao.getMaxComic())
+
+#@app.route('/marx-vs-smith', methods=['GET', 'POST'])
+#def marxVsSmith():
+#    import dao
+#
+#    if not 'correct' in session:
+#        session['correct'] = 0
+#    if not 'incorrect' in session:
+#        session['incorrect'] = 0
+#    if not 'questionsTaken' in session:
+#        session['questionsTaken'] = 0
+#
+#    maxId = dao.getLastQuestion(1)
+#    questionCount = dao.getQuestionNumber(1)
+#    print "begin"
+#
+#    if request.method == 'POST':
+#        if (request.form['nextQuestion'] == '1'):
+#            if 'lastQuestionId' in session:
+#                nextQuestion = dao.getNextQuestion(1,session['lastQuestionId'])
+#            else:
+#                nextQuestion = dao.getNextQuestion(1)
+#
+#            if not nextQuestion is None:
+#                session['lastQuestionId'] = nextQuestion['question_id']
+#            else:
+#                questions = dao.getQuestions(1)
+#                answers = {}
+#                for question in questions:
+#                    print question['answer']
+#                    if question['answer'] == session['answerFor_' + str(question['question_id'])]:
+#                        answers[question['question_id']] = 1
+#                    else:
+#                        answers[question['question_id']] = 0
+#
+#                totalQuestions = session['correct'] + session['incorrect']
+#                questions = dao.getQuestions(1)
+#
+#                return render_template('marxVsSmithDone.html', answers=answers, questions=questions, totalCorrect=session['correct'], totalIncorrect=session['incorrect'], totalQuestions=totalQuestions, static=s.STATIC_URL)
+#                    
+#            return render_template('marxVsSmith.html', nextQuestion=nextQuestion, answer=0, static=s.STATIC_URL)
+#
+#        ### submitted an answer
+#        else: 
+#            nextQuestion = dao.getQuestion(session['lastQuestionId'])
+#
+#            lastAnswer = dao.checkQuestion(request.form['questionId'])
+#            correct = (str(lastAnswer) == str(request.form['questionAnswer']))
+#            session['answerFor_' + str(request.form['questionId'])] = str(request.form['questionAnswer'])
+#
+#            if correct == True:
+#                session['correct'] += 1
+#            else:
+#                session['incorrect'] += 1
+#
+#            isLastQuestion = (str(nextQuestion['question_id']) == str(maxId))
+#            return render_template('marxVsSmith.html', correct=correct, isLastQuestion=isLastQuestion, totalCorrect=session['correct'], totalIncorrect=session['incorrect'], nextQuestion=nextQuestion, answer=lastAnswer, static=s.STATIC_URL)
+#        
+#    else: # GET
+#        session.clear()
+#        if 'lastQuestionId' in session:
+#            nextQuestion = dao.getQuestion(session['lastQuestionId'])
+#        else:
+#            nextQuestion = dao.getNextQuestion(1)
+#            session['lastQuestionId'] = nextQuestion['question_id']
+#                
+#        return render_template('marxVsSmith.html', nextQuestion=nextQuestion, static=s.STATIC_URL)
 
 @app.route('/store')
 def store():
@@ -276,6 +347,56 @@ def servePhilosopher(philosopherName=None, lang='en'):
 @app.route('/comic/<lang>/<curComic>')
 def serveComicLang(curComic=None, lang='es'):
     return serveComic(curComic, lang)
+
+@app.route('/update-text/<curComicInput>', methods=['GET', 'POST'])
+def updateText(curComicInput=None, lang='en'):
+    import dao
+
+    curComic = None
+    try:
+        curComic = long(curComicInput)
+    except ValueError:
+        return page_not_found(None) 
+
+    if curComic is None:
+        return page_not_found(None) 
+
+    if request.method == 'POST':
+        for fieldname, value in request.form.items():
+            fieldAry = fieldname.split('-')
+
+            if fieldAry[0] == 'imagetext':
+                if s.CAN_UPDATE:
+                    dao.updateText(fieldAry[1], value)
+                else:
+                    dao.suggestText(fieldAry[1], value)
+        return suggestEdit();
+
+    comic = dao.getComic(curComic, lang)
+    if comic is None:
+        return page_not_found(None) 
+
+    philosophers = dao.getPhilosophersByComic(comic.comicId)
+
+    langUrl = ""
+    if (lang != 'en'):
+        langUrl = lang + '/'
+
+    resp = make_response(render_template('editText.html', comic=comic, philosophers=philosophers,langUrl = langUrl, static=s.STATIC_URL))
+    return resp
+
+@app.route('/suggestEdit')
+def suggestEdit():
+    import dao
+
+    comicId = dao.getReviewableComicId()
+
+    dao.suggestTextPageload(comicId)
+
+    if comicId is None:
+        return redirect('/', code=302)
+
+    return redirect('/update-text/' + str(comicId), code=302)
 
 @app.route('/comic/<curComicInput>')
 @app.cache.memoize(50, unless=is_cache_off)

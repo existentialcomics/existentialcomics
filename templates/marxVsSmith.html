@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block title %}Karl Marx or Adam Smith?{% endblock %}
+{% block head %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"/>
+<link rel="shortcut icon" href="{{ static }}/favicon.ico">
+{% endblock %}
+{% block content %}
+<div id="content">
+    {% if showAds %}<center><script type="text/javascript" src="http://ap.lijit.com/www/delivery/fpi.js?z=277776&u=existentialcomics&width=728&height=90"></script></center>{% endif %}
+    <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes"></a>
+<h3>Karl Marx or Adam Smith?</h3>
+
+<br />
+{% if correct %}
+Correct!
+{% else %}
+Incorrect.
+{% endif %}
+<div class="quoteSection">
+	<div class="column-left">
+	<img src="{{static}}/marxPortrait.png">
+	</div>
+	<div class="column-center">
+	{% if answer %}
+		{% if answer == 19 %}
+		<div class="triangle-isosceles left">{{ nextQuestion['quote'] }}</div>
+		{% else %}
+		<div class="triangle-isosceles right">{{ nextQuestion['quote'] }}</div>
+		{% endif %}
+	{% else %}
+		<div class="triangle-isosceles">{{ nextQuestion['quote'] }}</div>
+	{% endif %}
+
+
+	{% if answer %}
+		<form id="quiz_next" class="vote-marx" action="/marx-vs-smith" method="POST">
+			<input type="hidden" name="nextQuestion" value="1">
+		{% if isLastQuestion %}
+			<input type="submit" name="next" value="See Results">
+		{% else %}
+			<input type="submit" name="next" value="Next Question" class="next-question">
+		{% endif %}
+		</form>
+	{% else %}
+		<form id="voteMarx" action="/marx-vs-smith" method="POST" class='vote-marx'>
+			<input type="hidden" name="questionId" value="{{ nextQuestion['question_id'] }}">
+			<input type="hidden" name="questionAnswer" value="19">
+			<input type="hidden" name="nextQuestion" value="0">
+			<input type="submit" name="Karl Marx" value="Karl Marx" class="marx-submit">
+		</form>
+
+		<form id="voteSmith" action="/marx-vs-smith" method="POST" class='vote-smith'>
+			<input type="hidden" name="questionId" value="{{ nextQuestion['question_id'] }}">
+			<input type="hidden" name="questionAnswer" value="135">
+			<input type="hidden" name="nextQuestion" value="0">
+			<input type="submit" name="smith" value="Adam Smith" class='smith-submit'>
+		</form>
+	{% endif %}
+	</div>
+	<div class="column-right">
+	<img src="{{static}}/smithPortrait.png">
+	</div>
+</div>
+        {% if showAds %}<center><script type="text/javascript" src="http://ap.lijit.com/www/delivery/fpi.js?z=277777&u=existentialcomics&width=728&height=90"></script></center>{% endif %}
+        <div class="links" style="clear:both">
+            <div class="column">
+                <h4>Comics I enjoy:</h4>
+                <ul>
+                    <li>
+                        <a href="http://www.dead-philosophers.com/">Dead Philosophers in Heaven</a>
+                    </li>
+                    <li>
+                        <a href="http://www.smbc-comics.com/">SMBC Comics</a>
+                    </li>
+                    <li>
+                        <a href="http://www.qwantz.com/index.php">Dinosaur Comics</a>
+                    </li>
+                    <li>
+                        <a href="http://www.lunarbaboon.com/">Lunar Baboon</a>
+                    </li>
+                    <li>
+                        <a href="http://nedroid.com/">Nedroid Picture Diary</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="column">
+                <h4>Podcasts &amp; other sites I like:</h4>
+                <ul>
+                    <li>
+                        <a href="http://www.partiallyexaminedlife.com/">Partially Examined Life</a>
+                    </li>
+                    <li>
+                        <a href="http://www.historyofphilosophy.net/">History of Philosophy without any Gaps</a>
+                    </li>
+                    <li>
+                        <a href="http://www.philosophybites.com/">Philosophy Bites</a>
+                    </li>
+                    <li>
+                        <a href="http://www.philosophybro.com">Philosophy Bro</a>
+                    </li>
+                    <li>
+                        <a href="http://www.critical-theory.com">Critical-Theory</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer">
+            <p>
+            Contact: <a href="mailto:existentialcomics@gmail.com?subject=You're the greatest!">existentialcomics@gmail.com</a>
+            </p>
+            <ul class="nav">
+	      <li> <a href="/">Home</a> </li>
+              <li> <a href="/archive">Archive</a> </li>
+              <li> <a href="http://www.patreon.com/ExistentialComics">Patreon</a> </li>
+              <li> <a href="/unofficialComics">Unofficial Comics</a> </li>
+	      <li> Blog </li>
+            </ul>
+        </div>
+</div>
+{% endblock %}
