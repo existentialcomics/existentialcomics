@@ -61,17 +61,12 @@
     <a href="{{ image.link }}">
     {% endif %}
     <img class="comicImg" src="{{ image.filename }}" 
-        {% if image.altText %} alt="{{ image.altText }}"{% endif %} 
+        {% if image.altText and image.altTextReviewed %} alt="{{ image.altText }}"{% endif %} 
         {% if image.titleText %} title="{{ image.titleText }}"{% endif %}>
     {% if image.link %}
     </a>
     {% endif %}
     {% if not loop.last %}<br />{% endif %}
-    {% if image.altText %}
-    <div class="altText">
-    {{ image.altText }}
-    </div>
-    {% endif %}
     {% endfor %}
     <div id="bottom">
         {% if comic.explanation %}

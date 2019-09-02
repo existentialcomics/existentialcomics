@@ -463,7 +463,7 @@ def getComics(comicId = None, lang="en", orderBy = "date", table = "comic", imag
             if (row['descriptive_text_reviewed'] == 1):
                 descTextRow = row['descriptive_text']
 
-            newImage = Image(s.STATIC_URL + row['filename'], comicId, row['image_id'], row['alt_text'], descTextRow, row['external_link'])
+            newImage = Image(s.STATIC_URL + row['filename'], comicId, row['image_id'], row['alt_text'], row['descriptive_text'], row['descriptive_text_reviewed'], row['external_link'])
             images.append(newImage)
 
         comics.append(Comic(title, images, comicIdRow, pubDate, explanation, comicType))
