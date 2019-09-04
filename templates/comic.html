@@ -195,6 +195,35 @@ function showExplanation() {
    label.innerHTML = labelHidden.innerHTML;
 ;
 }
+
+//document.addEventListener('keypress', keyPressEv);
+document.onkeydown = keyPressEv;
+
+{% if prevComic %}
+var prevComic = {{ prevComic }}
+{% else %}
+var prevComic = null;
+{% endif %}
+
+{% if nextComic %}
+var nextComic = {{ nextComic }}
+{% else %}
+var nextComic = null;
+{% endif %}
+
+function keyPressEv(e) {
+    console.log(e.keyCode);
+    if (e.keyCode == 37 && prevComic != null) {
+        document.location = '/comic/' + prevComic;
+    }
+    if (e.keyCode == 39 && nextComic != null) {
+        document.location = '/comic/' + nextComic;
+    }
+    if (e.keyCode == 82) {
+        document.location = '/comic/random';
+    }
+}
+
 </script>
 
 {% endblock %}
