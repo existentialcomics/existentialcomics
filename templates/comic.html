@@ -67,6 +67,11 @@
     </a>
     {% endif %}
     {% if not loop.last %}<br />{% endif %}
+    {% if image.titleText %}
+        <div class="altText">
+        {{ image.titleText }}
+        </div>
+    {% endif %}
     {% endfor %}
     <div id="bottom">
         {% if comic.explanation %}
