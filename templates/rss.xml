@@ -8,12 +8,14 @@
 <language>en</language>{% for comic in comics %}
     <item>
         <title>{{ comic.title }}</title>
+        <author>Corey Mohler</author>
         <link>http://existentialcomics.com/comic/{{ comic.comicId }}</link>
         <guid>http://existentialcomics.com/comic/{{ comic.comicId }}</guid>
-        <description>{% for image in comic.images %}
-            &lt;img src="https:{{ image.filename }}"{% if image.altText %} alt="{{ image.altText|replace('"','\\"') }}" title="{{ image.titleText|replace('"','\\"') }}"{% endif %}&gt;
-            {% if not loop.last %}&lt;br /&gt;&lt;hr /&gt;&lt;br /&gt;{% endif %}{% endfor %}
-        </description>
+        <description><![CDATA[
+            {% for image in comic.images %}
+            <img src="https:{{ image.filename }}"{% if image.altText %} alt="{{ image.altText }}" title="{{ image.titleText }}"{% endif %}>
+                {% if not loop.last %}<br /><hr /><br />{% endif %}{% endfor %}
+            ]]></description>
         <pubDate>{{ comic.pubDate }} PDT</pubDate>
     </item>{% endfor %}
 </channel>
