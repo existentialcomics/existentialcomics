@@ -8,7 +8,7 @@ class Comic:
         self.explanation = explanation
         self.comicType = comicType
         self.altLangs = list()
-        self.link = "http://" + s.DOMAIN + '/comic/' + str(comicId)
+        self.link = "https://" + s.DOMAIN + '/comic/' + str(comicId)
 
     def setAltLangs(self, languages):
         langs = list()
@@ -18,4 +18,4 @@ class Comic:
 
     def getLangLink(self, lang):
         import settings as s
-        return "http://" + s.DOMAIN + '/comic/' + lang + "/" + str(self.comicId)
+        return "https://" + s.DOMAIN + '/comic/' + lang + "/" + str(self.comicId)
