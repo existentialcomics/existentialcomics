@@ -5,7 +5,7 @@
 <link rel="shortcut icon" href="{{ static }}/favicon.ico">
 <meta property="og:title" content="{{ comic.title}}" />
 <meta property="og:type" content="website" />
-<meta property="og:image" content="{{ comic.images[0].filename}}" />
+<meta property="og:image" content="https:{{ comic.images[0].filename}}" />
 <meta property="og:url" content="{{comic.link}}" />
 <meta property="og:description" content="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes" />
 
@@ -50,6 +50,7 @@
     </div>
     <div class = "merch">
 	<a href="https://www.teepublic.com/user/existentialcomics?ref_id=1499&ref_type=aff"><img src="{{ static }}/merch.png" class="merch" /></a>
+    <a href="https://www.patreon.com/bePatron?u=249109" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
 	</div>
     <div class='title'>
 	<h3>{{ comic.title }}</h3>
