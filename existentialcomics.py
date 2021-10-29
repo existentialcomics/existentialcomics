@@ -382,7 +382,11 @@ def updateText(curComicInput=None, lang='en'):
     if (lang != 'en'):
         langUrl = lang + '/'
 
-    resp = make_response(render_template('editText.html', comic=comic, philosophers=philosophers,langUrl = langUrl, static=s.STATIC_URL))
+    maxComic = dao.getMaxComic()
+    if curComic is None:
+        curComic = maxComic
+
+    resp = make_response(render_template('editText.html', comic=comic, philosophers=philosophers,maxComic=maxComic,langUrl = langUrl, static=s.STATIC_URL))
     return resp
 
 @app.route('/suggestEdit')
