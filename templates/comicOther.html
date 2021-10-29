@@ -27,7 +27,9 @@
     {% if image.link %}
     <a href="{{ image.link }}">
     {% endif %}
-    <img class="comicImg" src="{{ image.filename }}"{% if image.altText %} alt="{{ image.altText }}" title="{{ image.altText }}"{% endif %}>
+    <img class="comicImg" src="{{ image.filename }}" 
+        {% if image.altText and image.altTextReviewed %} alt="{{ image.altText }}"{% endif %} 
+        {% if image.titleText %} title="{{ image.titleText }}"{% endif %}>
     {% if image.link %}
     </a>
     {% endif %}
