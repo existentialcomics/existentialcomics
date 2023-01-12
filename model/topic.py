@@ -4,4 +4,4 @@ class Topic:
         self.topic = topicId
         self.name = name
         self.comics = comics
-        self.link = "/topic/" + urllib.quote(name.replace(" ", "_").encode('utf8'))
+        self.link = "/topic/" + urllib.parse.quote(name.replace(" ", "_").encode('utf8'))

@@ -8,5 +8,5 @@ class Image:
         if altText is None:
             self.altText = ""
         else:
-            self.altText = altText.decode('utf8')
+            self.altText = altText
         self.link    = link

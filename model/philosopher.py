@@ -8,7 +8,7 @@ class Philosopher:
         self.comics = comics
         self.bio = bio
         self.portrait = portrait
-        self.link = "/philosopher/" + urllib.quote(name.replace(" ", "_").encode('utf8'))
+        self.link = "/philosopher/" + urllib.parse.quote(name.replace(" ", "_"))
 
     # reverses order of comics.
     def reverseComics(self):

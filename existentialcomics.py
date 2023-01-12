@@ -1,20 +1,21 @@
 from flask import Flask, render_template, url_for, g, Response, request, make_response, redirect, session
 #from flaskext.markdown import Markdown
 #import markdown
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.cache import Cache
-from werkzeug.contrib.cache import MemcachedCache
+# from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
+from flask_caching import Cache
+# from werkzeug.contrib.cache import MemcachedCache
 from datetime import date
 
 import settings as s
 import sys
-reload(sys)
-sys.setdefaultencoding('latin-1')
+# reload(sys)
+# sys.setdefaultencoding('latin-1')
 #sys.setdefaultencoding('utf8')
 
 app = Flask(__name__, static_folder=s.STATIC_URL)
 app.debug = True
-app.secret_key = 'ssefsefsa231423ey'
+app.secret_key = app.config['SECRET_KEY']
 app.config['SESSION_TYPE'] = 'filesystem'
 
 #Markdown(app)
@@ -24,11 +25,11 @@ app.config['CACHE_TYPE'] = 'memcached'
 app.config['CACHE_MEMCACHED_SERVERS'] = ['localhost:11211']
 
 app.cache = Cache(app)
-#cache = MemcachedCache(['localhost:11211'])
+# cache = MemcachedCache(['localhost:11211'])
 db = SQLAlchemy(app)
 
 def is_cache_off():
-    return True
+    return False
 
 @app.route("/")
 def home():
@@ -249,17 +250,16 @@ def serveArchiveOther():
     return render_template('archiveOther.html', comics=comics, titleImg=titleImg, static=s.STATIC_URL)
 
 @app.route('/archive')
-@app.cache.memoize(50, unless=is_cache_off)
 def serveArchiveDefault():
     return serveArchive('byCategory')
 
 @app.route('/archive/<displayMode>/<minorSort>')
-@app.cache.memoize(50, unless=is_cache_off)
+@app.cache.memoize(600, unless=is_cache_off)
 def serveArchiveSorted(displayMode = "byCategory", minorSort = None):
     return serveArchive(displayMode, minorSort)
 
 @app.route('/archive/<displayMode>')
-@app.cache.memoize(50, unless=is_cache_off)
+@app.cache.memoize(600, unless=is_cache_off)
 def serveArchive(displayMode = "byCategory", minorSort = None):
     import dao
 
@@ -314,11 +314,12 @@ def serveArchive(displayMode = "byCategory", minorSort = None):
 
     if (mode == "philosopher"):
         philosophers = dao.getAllPhilosophers()
-        if request.args.get('sort') == 'appearance':
+        if minorSort == 'appearance':
 	        philosophers.sort(key=lambda x: len(x.comics), reverse=True)
-        if request.args.get('sort') == 'name':
+        if minorSort == 'name':
 	        philosophers.sort(key=lambda x: x.name, reverse=False)
-        nonPhilosophers = dao.getNonPhilosopherComics()
+        # nonPhilosophers = dao.getNonPhilosopherComics()
+        nonPhilosophers = []
         titleImg = s.STATIC_URL + '/titleArchive.jpg'
         return render_template('archivePhilosophers.html', philosophers=philosophers, nonPhilosophers=nonPhilosophers, titleImg=titleImg, static=s.STATIC_URL)
 
@@ -329,12 +330,12 @@ def serveArchive(displayMode = "byCategory", minorSort = None):
         return render_template('archiveTopics.html', topics=topics, titleImg=titleImg, static=s.STATIC_URL)
 
 @app.route('/philosopher/<philosopherName>')
-@app.cache.memoize(50, unless=is_cache_off)
+@app.cache.memoize(600, unless=is_cache_off)
 def servePhilosopher(philosopherName=None, lang='en'):
     import dao
     import urllib
  
-    philosopher = dao.getPhilosopherByName(urllib.unquote(philosopherName.replace("_", " ")).decode('utf8'))
+    philosopher = dao.getPhilosopherByName(urllib.parse.unquote(philosopherName.replace("_", " ")))
     if philosopher is None:
         return page_not_found(None) 
     
@@ -345,6 +346,7 @@ def servePhilosopher(philosopherName=None, lang='en'):
     return render_template('comicPhilosopher.html', philosopher=philosopher, titleImg=titleImg, static=s.STATIC_URL, showAds = s.SHOW_ADS)
 
 @app.route('/comic/<lang>/<curComic>')
+@app.cache.memoize(50, unless=is_cache_off)
 def serveComicLang(curComic=None, lang='es'):
     return serveComic(curComic, lang)
 
@@ -354,7 +356,7 @@ def updateText(curComicInput=None, lang='en'):
 
     curComic = None
     try:
-        curComic = long(curComicInput)
+        curComic = curComicInput
     except ValueError:
         return page_not_found(None) 
 
@@ -417,7 +419,7 @@ def serveComic(curComicInput=None, lang='en'):
 
     curComic = None
     try:
-        curComic = long(curComicInput)
+        curComic = curComicInput
     except ValueError:
         return page_not_found(None) 
 
@@ -484,7 +486,7 @@ def serveAlternateComic(curComicInput=None, lang='en'):
     import dao
     curComic = None
     try:
-        curComic = long(curComicInput)
+        curComic = curComicInput
     except ValueError:
         return page_not_found(None)
     comic = dao.getAlternateComic(curComic)

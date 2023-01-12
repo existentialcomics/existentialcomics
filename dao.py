@@ -1,11 +1,11 @@
 import sqlite3
 import markdown
 import settings as s
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from flask import Markup
 from sqlalchemy import create_engine, text
 
-engine = create_engine('mysql://' + s.MYSQL_USER + ':' + s.MYSQL_PASSWORD + '@' + s.MYSQL_HOST + '/' + s.MYSQL_DB, pool_size=20, max_overflow=40, pool_recycle=3600)
+engine = create_engine('mysql://' + s.MYSQL_USER + ':' + s.MYSQL_PASSWORD + '@' + s.MYSQL_HOST + '/' + s.MYSQL_DB + "?charset=utf8mb4", pool_size=20, max_overflow=40, pool_recycle=3600)
 
 def get_db():
     return engine.connect()
@@ -78,7 +78,7 @@ def updateScores():
     tu = text("UPDATE sexy_philosopher SET score = :score, vote_total = :votes WHERE philosopher_id = :philosopherId")
     for row in results:
         score = "%0.1f" % row['avgScore']
-	votes = row['votes']
+        votes = row['votes']
         philosopherId = row['philosopher_id']
         c.execute(tu, score = score, philosopherId = philosopherId, votes = votes)
     return 0
@@ -185,12 +185,15 @@ def suggestTextPageload(comicId):
     t = text('INSERT INTO image_description_formloads (comic_id) values (:comic_id)')
     results = c.execute(t, comic_id=comicId)
 
-def getReviewableComicId():
-    c = get_db()
-    t = text('SELECT c.comic_id FROM comic c INNER JOIN image i ON c.comic_id = i.comic_id AND i.descriptive_text_reviewed = 0 AND (SELECT count(*) FROM image_description_edit e WHERE i.image_id = e.image_id) = 0 AND (SELECT COUNT(*) FROM image_description_formloads f WHERE f.comic_id = c.comic_id AND time_loaded > DATE_SUB(NOW(), INTERVAL 30 MINUTE)) = 0 ORDER BY RAND() limit 1')
-    results = c.execute(t)
-    for row in results:
-        return row['comic_id']
+# def getReviewableComicId():
+    # c = get_db()
+    # t = text('
+        # SELECT c.comic_id
+            # FROM comic c
+            # INNER JOIN image i ON c.comic_id = i.comic_id AND i.descriptive_text_reviewed = 0 AND (SELECT count(*) FROM image_description_edit e WHERE i.image_id = e.image_id) = 0 AND (SELECT COUNT(*) FROM image_description_formloads f WHERE f.comic_id = c.comic_id AND time_loaded > DATE_SUB(NOW(), INTERVAL 30 MINUTE)) = 0 ORDER BY RAND() limit 1')
+    # results = c.execute(t)
+    # for row in results:
+        # return row['comic_id']
 
 def getAllSexyPhilosophers():
     from model.sexyPhilosopher import SexyPhilosopher

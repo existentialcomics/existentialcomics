@@ -3,3 +3,6 @@ settings.py
 *.wsgi
 *.sql
 pushComic.pl
+*.swp
+*.swo
+venv
