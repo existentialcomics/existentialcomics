@@ -67,7 +67,7 @@
 				{% endfor %}
 			</div>
         {% endif %}
-        <p class="permalink">Permanent Link to this Comic: {{ comic.link }}</p>
+        <p class="permalink">Permanent Link to this Comic: <a href="{{ comic.link }}">{{ comic.link }}</a></p>
         <div id="share" style='background-image:url({{ static }}/share_42.jpg);'>
             <div style='position:absolute; bottom:0'>
                 <table>
