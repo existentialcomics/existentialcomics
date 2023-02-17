@@ -26,7 +26,7 @@
     </div>
     {% endif %}
     {% endfor %}
-        <p class="permalink">Permanent Link to this Comic: {{ comic.link }}</p>
+    <p class="permalink">Permanent Link to this Comic: <a href="{{ comic.link }}">{{ comic.link }}</a></p>
 {% endfor %}
     <div id="bottom">
         <a href="http://www.patreon.com/ExistentialComics">Support the comic on Patreon</a>
