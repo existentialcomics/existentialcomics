@@ -52,7 +52,7 @@
         </div>
         {% endif %}
         <p>This is an unofficial comic, to go back to <a href = "/unofficialComics">the unoffical archive click here</a><p>
-        <p class="permalink">Permanent Link to this Comic: {{ comic.link }}</p>
+        <p class="permalink">Permanent Link to this Comic: <a href="{{ comic.link }}">{{ comic.link }}</a></p>
         <a href="http://www.patreon.com/ExistentialComics">Support the comic on Patreon</a>
         <div id="share" style='background-image:url({{ static }}/share_42.jpg);'>
             <div style='position:absolute; bottom:0'>
