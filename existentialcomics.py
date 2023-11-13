@@ -168,7 +168,8 @@ def sexyMain(philosopherId = None):
 
 @app.route('/comics/319')
 def secretUrl():
-    d0 = date(2013, 11, 12)
+    #d0 = date(2013, 11, 12)
+    d0 = date(2023, 11, 13)
     today = date.today()
     delta = today - d0
     kantDays = delta.days
