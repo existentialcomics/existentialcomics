@@ -37,18 +37,17 @@
             <div style='position:absolute; bottom:0'>
                 <table>
                 <tr>
-                <!--- follow -->
+                <!--- follow comic -->
                 <td width="241px"> 
                     <a href="/rss.xml"><img src='{{ static }}/rss_42.png' title="Follow on RSS" alt="Follow on RSS"></a>
-                    <a href="https://twitter.com/intent/user?screen_name=existentialcoms"><img src="{{ static }}/twitter_42.png" title="Follow on twitter for the jokes too stupid to even make comics out of" alt="Follow on twitter"></a>
+                    <a href="https://bsky.app/profile/existentialcomics.bsky.social"><img src="{{ static }}/bluesky_42.png" title="Follow on bluesky for the jokes too stupid to even make comics out of" alt="Follow on bluesky"></a>
                     <a href="https://www.facebook.com/ExistentialComics"><img src="{{ static }}/facebook_42.png" title="Follow on facebook" alt="Follow on facebook"></a>
                 </td>
                 <!--- share -->
                 <td width="241px">
-                <a href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent('{{ blog.link }}'); return false"><img src="{{ static }}/reddit_42.png" alt="share with reddit" title="share with reddit" border="0" /></a>
-                <a href='https://twitter.com/share' onclick=" window.open('https://twitter.com/share?url='+encodeURIComponent('{{ blog.link }}')+'&text='+encodeURIComponent('{{ blog.title }} via @existentialcoms -'))"><img src='{{ static }}/twitter_42.png' alt="share on twitter" title="share with twitter"></a>
-                <a href="https://www.facebook.com/sharer/" onclick=" window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('{{ blog.link }}'),'facebook-share-dialog','width=626,height=436'); return false;"><img src='{{ static }}/facebook_42.png' alt="share with your friends on facebook" title="share with your friends"></a>
-                <a href='https://plus.google.com/share' onclick=" window.open('https://plus.google.com/share?url='+encodeURIComponent('{{ blog.link}}') )"><img src='{{ static }}/gplus_42.png' alt="share with google employees" title="share with google employees"></a>
+                <a href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent('{{ comic.link }}'); return false"><img src="{{ static }}/reddit_42.png" alt="share with reddit" title="share with reddit" border="0" /></a>
+                <a href='https://bsky.app/intent/compose' onclick=" window.open('https://bsky.app/intent/compose?text='+encodeURIComponent('{{ comic.link }}')+'&text='+encodeURIComponent('{{ comic.title }} via @existentialcoms -'))"><img src='{{ static }}/bluesky_42.png' alt="share on bluesky" title="share with bluesky"></a>
+                <a href="https://www.facebook.com/sharer/" onclick=" window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('{{ comic.link }}'),'facebook-share-dialog','width=626,height=436'); return false;"><img src='{{ static }}/facebook_42.png' alt="share with your friends on facebook" title="share with your friends"></a>
                 </td>
                 </tr>
                 </table>

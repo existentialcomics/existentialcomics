@@ -14,7 +14,7 @@ import sys
 #sys.setdefaultencoding('utf8')
 
 app = Flask(__name__, static_folder=s.STATIC_URL)
-app.debug = True
+app.debug = False
 app.secret_key = app.config['SECRET_KEY']
 app.config['SESSION_TYPE'] = 'filesystem'
 
@@ -410,7 +410,8 @@ def suggestEdit():
 def serveComic(curComicInput=None, lang='en'):
     import dao
 
-    d0 = date(2013, 11, 12)
+    #d0 = date(2013, 11, 12)
+    d0 = date(2023, 11, 13)
     today = date.today()
     delta = today - d0
     kantDays = delta.days
