@@ -40,13 +40,13 @@
                 <!--- follow comic -->
                 <td width="241px"> 
                     <a href="/rss.xml"><img src='{{ static }}/rss_42.png' title="Follow on RSS" alt="Follow on RSS"></a>
-                    <a href="https://bsky.app/profile/existentialcomics.bsky.social"><img src="{{ static }}/bluesky_42.png" title="Follow on bluesky for the jokes too stupid to even make comics out of" alt="Follow on bluesky"></a>
+                    <a href="https://bsky.app/profile/existentialcomics.com"><img src="{{ static }}/bluesky_42.png" title="Follow on bluesky for the jokes too stupid to even make comics out of" alt="Follow on bluesky"></a>
                     <a href="https://www.facebook.com/ExistentialComics"><img src="{{ static }}/facebook_42.png" title="Follow on facebook" alt="Follow on facebook"></a>
                 </td>
                 <!--- share -->
                 <td width="241px">
                 <a href="http://www.reddit.com/submit" onclick="window.location = 'http://www.reddit.com/submit?url=' + encodeURIComponent('{{ comic.link }}'); return false"><img src="{{ static }}/reddit_42.png" alt="share with reddit" title="share with reddit" border="0" /></a>
-                <a href='https://bsky.app/intent/compose' onclick=" window.open('https://bsky.app/intent/compose?text='+encodeURIComponent('{{ comic.link }}')+'&text='+encodeURIComponent('{{ comic.title }} via @existentialcoms -'))"><img src='{{ static }}/bluesky_42.png' alt="share on bluesky" title="share with bluesky"></a>
+                <a href='https://bsky.app/intent/compose' onclick=" window.open('https://bsky.app/intent/compose?text='+encodeURIComponent('{{ comic.link }}')+'&text='+encodeURIComponent('{{ comic.title }}'))"><img src='{{ static }}/bluesky_42.png' alt="share on bluesky" title="share with bluesky"></a>
                 <a href="https://www.facebook.com/sharer/" onclick=" window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('{{ comic.link }}'),'facebook-share-dialog','width=626,height=436'); return false;"><img src='{{ static }}/facebook_42.png' alt="share with your friends on facebook" title="share with your friends"></a>
                 </td>
                 </tr>
