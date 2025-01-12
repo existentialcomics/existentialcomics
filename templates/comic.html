@@ -77,6 +77,7 @@
         </div>
     {% endif %}
     {% endfor %}
+    <a href="https://bsky.app/profile/existentialcomics.com"><img src="{{ static }}/bluesky_42.png" title="Follow on bluesky for the jokes too stupid to even make comics out of" alt="Follow on bluesky"><h3>Make sure to follow me on BlueSky</h3></a>
     <div id="bottom">
         {% if comic.explanation %}
 		<!-- <div id=explanation onclick="showExplanation()"> -->
@@ -97,7 +98,7 @@
 			</div>
         {% endif %}
         <p class="permalink">Permanent Link to this Comic: <a href="{{ comic.link }}">{{ comic.link }}</a></p>
-        <a href="https://www.patreon.com/ExistentialComics">Support the comic on Patreon!</a>
+	<a href="https://www.patreon.com/ExistentialComics">Support the comic on Patreon!</a><br />
         <div id="share" style='background-image:url({{ static }}/share_42.jpg);'>
             <div style='position:absolute; bottom:0'>
                 <table>
@@ -106,6 +107,7 @@
                 <td width="241px"> 
                     <a href="/rss.xml"><img src='{{ static }}/rss_42.png' title="Follow on RSS" alt="Follow on RSS"></a>
                     <a href="https://bsky.app/profile/existentialcomics.com"><img src="{{ static }}/bluesky_42.png" title="Follow on bluesky for the jokes too stupid to even make comics out of" alt="Follow on bluesky"></a>
+                    <a href="https://mastodon.social/@existentialcomics"><img src="{{ static }}/mastodon42.png" title="Follow on Mastodon for the jokes too stupid to even make comics out of" alt="Follow on bluesky"></a>
                     <a href="https://www.facebook.com/ExistentialComics"><img src="{{ static }}/facebook_42.png" title="Follow on facebook" alt="Follow on facebook"></a>
                 </td>
                 <!--- share -->
