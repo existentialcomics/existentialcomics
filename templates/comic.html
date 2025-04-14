@@ -34,11 +34,17 @@
 {% endif %}
     <a href="/"><img src="{{ static }}/title.jpg" alt="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes" title="{{ joke }}"></a>
     
-    <div class = "counter" style="background-image: url({{ static }}/safety.png)">
-    <h1 class = "counter-num">{{ kantDays }}</h1>
+    <div style = "position: relative; float: left; width:225px; height:150px; margin-left:20px; display:block;">
+        I am recently unemployed so if you like the comic it would be a great time to support me on patreon or Ko-Fi
+        <div style="float:left">
+        <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'B0B11DAJX8');kofiwidget2.draw();</script>
+        </div>
+        <div style="float:left">
+        <a href="https://www.patreon.com/bePatron?u=249109" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+        </div>
     </div>
-    <div class = "navigation-links">
-    <table class="nav-table">
+    <div class="navigation-links" style='width: 500px'>
+    <table class="nav-table" style='width: 500px'>
     <tr>
         <td>{% if firstComic %}<a href="/comic/{{ firstComic }}"><img src="{{ static }}/nav_start.jpg">{% else %}<img src="{{ static }}/nav_start_b.jpg">{% endif %}</td>
         <td>{% if prevComic %}<a href="/comic/{{ prevComic }}"><img src="{{ static }}/nav_prev.jpg"></a>{% else %}<img src="{{ static }}/nav_prev_b.jpg">{% endif %}</td>
@@ -48,18 +54,15 @@
     </tr>
     </table>
     </div>
-    <div class = "merch">
-	<a href="https://existentialcomics.dashery.com"><img src="{{ static }}/merch.png" class="merch" /></a>
-	<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'B0B11DAJX8');kofiwidget2.draw();</script>
-    <a href="https://www.patreon.com/bePatron?u=249109" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+    <div style = "position: relative; float: right; width:180px; height:132px; margin-left:20px; display:block;">
+        <a href="https://existentialcomics.dashery.com"><img src="{{ static }}/merch.png" class="merch" /></a>
 	</div>
-    <div class='title'>
+    <div class='title' style="width: 550">
 	<h3>{{ comic.title }}</h3>
     </div>
 
     </br>
     </br>
-    <!--    <b>My facebook page has been UNHACKED! So if you unfollowed me after weird stuff was posted, please refollow. I still am trying to get the name changed back but this is the page:<br /><a href='https://www.facebook.com/usaatodaynewss'>https://www.facebook.com/usaatodaynewss</a> for now.</b> -->
 
     {% for image in comic.images %}
     {% if image.link %}
@@ -78,10 +81,18 @@
         </div>
     {% endif %}
     {% endfor %}
-	<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'B0B11DAJX8');kofiwidget2.draw();</script>
-    <a href="https://www.patreon.com/bePatron?u=249109" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
-    <a href="https://bsky.app/profile/existentialcomics.com"><img src="{{ static }}/bluesky_42.png" title="Follow on bluesky for the jokes too stupid to even make comics out of" alt="Follow on bluesky">Make sure to follow me on BlueSky</a>
+
+
+    <!--<a href="https://bsky.app/profile/existentialcomics.com"><img src="{{ static }}/bluesky_42.png" title="Follow on bluesky for the jokes too stupid to even make comics out of" alt="Follow on bluesky">Make sure to follow me on BlueSky</a>-->
     <div id="bottom">
+        <div>
+        <br />
+            Also I am recently unemployed so if you like the comic it would be a great time to support me on patreon or Ko-Fi
+            <br/>
+            <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Support me on Ko-fi', '#72a4f2', 'B0B11DAJX8');kofiwidget2.draw();</script>
+            <br/>
+            <a href="https://www.patreon.com/bePatron?u=249109" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+        </div>
         {% if comic.explanation %}
 		<!-- <div id=explanation onclick="showExplanation()"> -->
 			<div id=explanation>
