@@ -19,5 +19,5 @@ A realtime multiplayer spaceship battle game that runs purely in the terminal. R
 A real time foosball game in websockets/perl/javascript I wrote over the weekend when lockdown started so I could still play foosball with the guys at the office.
 #### Gender Wars
 A ranking API to store and rank all things accord to their gender (i.e. will ask users questions like "what is more masculine, the concept of irony or a moose?"). Python / fastAPI
-#### Acscii encoder
+#### Ascii encoder
 Encode .mp4 into ascii only movies that can be played on the terminal.
