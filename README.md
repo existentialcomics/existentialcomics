@@ -17,7 +17,5 @@ A realtime chess game where all the pieces move at once and have to recharge. Th
 A realtime multiplayer spaceship battle game that runs purely in the terminal. Real nerd shit. You can build your ship out of the ships you destroy, and like 30 different weapons, and 10 different ship modules (cloaking, warp, autoaim, etc). Written in perl, multiplayer over a UNIX socket, AI for enemies. Curses to write to the screen. Similar to the old flash game Captain Forever.
 #### Foosball game
 A real time foosball game in websockets/perl/javascript I wrote over the weekend when lockdown started so I could still play foosball with the guys at the office.
-#### Gender Wars
-A ranking API to store and rank all things accord to their gender (i.e. will ask users questions like "what is more masculine, the concept of irony or a moose?"). Python / fastAPI
 #### Ascii encoder
 Encode .mp4 into ascii only movies that can be played on the terminal.
