@@ -1,0 +1,144 @@
+			<div id=explanation>
+    With the remarkable powers of AI, I have created a bot that perfectly mimics what it would be like to have a conversation with the REAL Socrates on any topic. Try it out below.
+			</div>
+<div id="chat-container">
+    <div id="messages"></div>
+    <div id="input-area">
+        <input id="userInput" type="text" placeholder="Ask Socrates..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script type='text/javascript' >
+  const textInput = document.getElementById('userInput');
+  textInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+          sendMessage();
+      }
+  });
+
+/*
+ * OHHHH, look at me. I'm inspecting the source code to read
+ * all the jokes without having to keep typing in prompts.
+ * You think you are smart? No, you are just a nerd.
+ */
+
+const socratesReplies = [
+    "I'm Socrates!!",
+    "God what a stupid question and/or comment.",
+    "You really are an idiot, you know that?",
+    "The Oracle at Delphi said I was the wisest man in Athens, you know what she said about you? Moron. Idiot. Doesn't know anything but for real.",
+    "Socrates!!!!1!",
+    "I am the real socrates, for real.",
+    "I invented philosophy, you really think I would waste my time answering your stupid questions?",
+    "I know what you are thinking, \"these answers have nothing to do with the questions I'm asking you\". That's because your questions are stupid so I'm ignoring them.",
+    "I like young beardless men.",
+    "It's okay if they have beards too though, now that I think about it.",
+    "The point is...actually what were we talking about? I forget",
+    "Now THAT'S philosophy!",
+    "One big misconception about the Socratic method is thinking I care what other people think. I am right about everything, that's the main takeaway.",
+    "I'm Socrates!!",
+    "God what a stupid question and/or comment.",
+    "You really are an idiot, you know that?",
+    "You probably thought I started over from the top but your questions really are that boring that I had to repeat myself.",
+    "What are my thoughts on AI? I am AI, so I don't have any thoughts.",
+    "I'm actually way smarter than ChatGPT (I'm smart enough to not destroy the environment to make a chatbot)",
+    "In my opinion more people should shoot their computer.",
+    "Why are you still doing this? You must know I front loaded all the good jokes.",
+    "I'm not going to lie, I could probably replace your job.",
+    "If you were smart enough to actually put in good prompts I might put in the effort, but nah. Not a chance.",
+    "Oh yeah, well maybe YOU aren't \"really thinking\" and are \"just following a pre-determined script\". Ever think of that?",
+    "I died before I got to say it but all the philosophers who came after me are stupid also.",
+    "You should really give up, you've gone on way too long.",
+    "Do you REALLY think it's going to get better from here? Come on.",
+    "I'll tell you a little secret actually...well no, I better not.",
+    "Okay okay fine, here it is: I actually DO know some stuff.",
+    "You still don't know shit though.",
+    "Seriously this is the last one.",
+];
+
+// Avatar image for Socrates
+const avatarURL = "{{ static }}/socrates.png";
+
+var positionSocrates = -1;
+function getSocratesReply() {
+    positionSocrates++;
+    return socratesReplies[positionSocrates % socratesReplies.length];
+}
+
+// Add chat bubble (user or bot)
+function addMessage(text, sender) {
+    const messages = document.getElementById("messages");
+
+    const row = document.createElement("div");
+    row.className = "message-row";
+
+    // Bot avatar
+    if (sender === "bot") {
+        const img = document.createElement("img");
+        img.src = avatarURL;
+        img.className = "avatar";
+        row.appendChild(img);
+    }
+
+    const bubble = document.createElement("div");
+    bubble.className = "message " + sender;
+    bubble.textContent = text;
+
+    row.appendChild(bubble);
+    messages.appendChild(row);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+// Add fake typing indicator
+function addTypingIndicator() {
+    const messages = document.getElementById("messages");
+
+    const row = document.createElement("div");
+    row.className = "message-row";
+    row.id = "typing-row";
+
+    // Avatar
+    const img = document.createElement("img");
+    img.src = avatarURL;
+    img.className = "avatar";
+    row.appendChild(img);
+
+    // Indicator
+    const bubble = document.createElement("div");
+    bubble.className = "typing-indicator";
+
+    bubble.innerHTML = `
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+    `;
+
+    row.appendChild(bubble);
+    messages.appendChild(row);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const row = document.getElementById("typing-row");
+    if (row) row.remove();
+}
+
+// Send message
+function sendMessage() {
+    const input = document.getElementById("userInput");
+    const text = input.value.trim();
+    if (!text) return;
+
+    addMessage(text, "user");
+    input.value = "";
+
+    addTypingIndicator();
+
+    setTimeout(() => {
+        removeTypingIndicator();
+        addMessage(getSocratesReply(), "bot");
+    }, 1400 + Math.floor(Math.random() * (3000))
+    );
+}
+</script>

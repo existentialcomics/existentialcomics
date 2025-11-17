@@ -2,7 +2,12 @@ import sqlite3
 import markdown
 import settings as s
 from flask_sqlalchemy import SQLAlchemy
+
+## older python on machines
 from flask import Markup
+
+# new python on local
+# from markupsafe import Markup  # Import Markup from markupsafe
 from sqlalchemy import create_engine, text
 
 engine = create_engine('mysql://' + s.MYSQL_USER + ':' + s.MYSQL_PASSWORD + '@' + s.MYSQL_HOST + '/' + s.MYSQL_DB + "?charset=utf8mb4", pool_size=20, max_overflow=40, pool_recycle=3600)
@@ -490,6 +495,6 @@ def getMaxBlog():
 
 def getMaxComic():    
     c = get_db()
-    results = c.execute('SELECT MAX(comic_id) as comic_id FROM comic WHERE status = "active"')
+    results = c.execute(text('SELECT MAX(comic_id) as comic_id FROM comic WHERE status = "active"'))
     for row in results:
-        return row['comic_id']
+        return row[0]

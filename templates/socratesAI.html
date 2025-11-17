@@ -1,0 +1,229 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background:#f3f3f3;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        margin:0;
+    }
+    #chat-container {
+        width:400px;
+        height:600px;
+        background:white;
+        border-radius:10px;
+        display:flex;
+        flex-direction:column;
+        box-shadow:0 0 15px rgba(0,0,0,0.2);
+        overflow:hidden;
+    }
+    #messages {
+        flex:1;
+        padding:15px;
+        overflow-y:auto;
+    }
+
+    /* MESSAGE BUBBLES */
+    .message-row {
+        display:flex;
+        align-items:flex-end;
+        margin-bottom:15px;
+    }
+    .avatar {
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        margin-right:10px;
+    }
+    .message {
+        padding:10px 14px;
+        border-radius:10px;
+        max-width:70%;
+        line-height:1.4em;
+    }
+    .user {
+        background:#0084ff;
+        color:white;
+        margin-left:auto;
+        margin-right:0;
+        border-bottom-right-radius:0;
+    }
+    .bot {
+        background:#eee;
+        color:black;
+        border-bottom-left-radius:0;
+    }
+
+    /* TYPING INDICATOR */
+    .typing-indicator {
+        display:flex;
+        align-items:center;
+        padding:10px 14px;
+        background:#eee;
+        border-radius:10px;
+        width:60px;
+        border-bottom-left-radius:0;
+    }
+
+    .typing-dot {
+        width:6px;
+        height:6px;
+        background:#999;
+        border-radius:50%;
+        margin:0 3px;
+        animation: blink 1.4s infinite both;
+    }
+
+    .typing-dot:nth-child(2) {
+        animation-delay:0.2s;
+    }
+    .typing-dot:nth-child(3) {
+        animation-delay:0.4s;
+    }
+
+    @keyframes blink {
+        0% { opacity:0.2; }
+        20% { opacity:1; }
+        100% { opacity:0.2; }
+    }
+
+    /* FOOTER */
+    #input-area {
+        padding:10px;
+        border-top:1px solid #ddd;
+        display:flex;
+        gap:10px;
+    }
+    #input-area input {
+        flex:1;
+        padding:10px;
+        font-size:16px;
+        border-radius:5px;
+        border:1px solid #ccc;
+    }
+    #input-area button {
+        padding:10px 15px;
+        font-size:16px;
+        border:none;
+        border-radius:5px;
+        background:#0084ff;
+        color:white;
+        cursor:pointer;
+    }
+</style>
+</head>
+
+<div id="chat-container">
+    <div id="messages"></div>
+    <div id="input-area">
+        <input id="userInput" type="text" placeholder="Ask Socrates..." />
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+// --- Pre-scripted Socrates replies ---
+const socratesReplies = [
+    "I'm Socrates!!",
+    "God what a stupid question and/or comment.",
+    "You really are an idiot, you know that?",
+    "The Oracle at Delphi said I was the wisest man in Athens, you know what she said about you? Moron. Idiot. Doesn't know anything but for real.",
+    "Socrates!!!!1!",
+    "I am the real socrates, for real.",
+    "I know what you are thinking, \"these answers have nothing to do with the questions I'm asking you\". That's because your questions are stupid so I'm ignoring them.",
+    "I like young beardless men.",
+    "It's okay if they have beards too though, now that I think about it.",
+    "Now THAT'S philosophy!",
+    "One big misconception about the Socratic method is thinking I care what other people think. I am right about everything, that's the main takeaway.",
+    "I'm Socrates!!",
+    "God what a stupid question and/or comment.",
+    "You really are an idiot, you know that?",
+    "You probably thought I started over from the top but your questions really are that boring that I had to repeat myself.",
+    "What are my thoughts on AI? I am AI, so I don't have any thoughts.",
+];
+
+// Avatar image for Socrates
+const avatarURL = "https://upload.wikimedia.org/wikipedia/commons/1/16/Socrates_Louvre.jpg";
+
+function getSocratesReply() {
+    return socratesReplies[Math.floor(Math.random() * socratesReplies.length)];
+}
+
+// Add chat bubble (user or bot)
+function addMessage(text, sender) {
+    const messages = document.getElementById("messages");
+
+    const row = document.createElement("div");
+    row.className = "message-row";
+
+    // Bot avatar
+    if (sender === "bot") {
+        const img = document.createElement("img");
+        img.src = avatarURL;
+        img.className = "avatar";
+        row.appendChild(img);
+    }
+
+    const bubble = document.createElement("div");
+    bubble.className = "message " + sender;
+    bubble.textContent = text;
+
+    row.appendChild(bubble);
+    messages.appendChild(row);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+// Add fake typing indicator
+function addTypingIndicator() {
+    const messages = document.getElementById("messages");
+
+    const row = document.createElement("div");
+    row.className = "message-row";
+    row.id = "typing-row";
+
+    // Avatar
+    const img = document.createElement("img");
+    img.src = avatarURL;
+    img.className = "avatar";
+    row.appendChild(img);
+
+    // Indicator
+    const bubble = document.createElement("div");
+    bubble.className = "typing-indicator";
+
+    bubble.innerHTML = `
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+    `;
+
+    row.appendChild(bubble);
+    messages.appendChild(row);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const row = document.getElementById("typing-row");
+    if (row) row.remove();
+}
+
+// Send message
+function sendMessage() {
+    const input = document.getElementById("userInput");
+    const text = input.value.trim();
+    if (!text) return;
+
+    addMessage(text, "user");
+    input.value = "";
+
+    addTypingIndicator(); // show fake thinking
+
+    // After delay, remove indicator and add reply
+    setTimeout(() => {
+        removeTypingIndicator();
+        addMessage(getSocratesReply(), "bot");
+    }, 1400 + Math.floor(Math.random() * (3000)); // think time
+}
+</script>
+

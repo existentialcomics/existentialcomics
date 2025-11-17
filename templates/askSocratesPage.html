@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block head %}
+<link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml"/>
+<link rel="shortcut icon" href="{{ static }}/favicon.ico">
+<meta property="og:title" content="ask Socrates" />
+<meta property="og:type" content="website" />
+<meta property="og:description" content="A philosophy webcomic about the inevitable anguish of living a brief life in an absurd world. Also Jokes" />
+
+{% endblock %}
+{% block content %}
+<div id="content">
+<center>
+        {% include "askSocrates.html" %}
+</center>
+</div>
+
+{% endblock %}

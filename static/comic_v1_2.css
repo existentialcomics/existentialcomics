@@ -1,0 +1,592 @@
+#global_container
+{
+background-color:gray;
+}
+
+html *
+{
+font-family:Arial, Helvetica, sans-serif;
+margin-top:0;
+margin-bottom:0;
+}
+
+body
+{
+    font-family: Arial, sans-serif;
+    background:#f3f3f3;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+    background-color:#444;
+}
+
+a
+{
+    padding: 2px;
+}
+h3, p
+{
+    padding: 10px 0;
+}
+
+h4 {
+    font-weight: normal;
+    padding-bottom: 5px;
+}
+
+a { text-decoration: none; }
+
+a:link, a:active, a:visited, #explanation strong { color: #2d7527; }
+
+a:hover { color: #442904; }
+
+#content
+{
+    font-family:Arial, Helvetica, sans-serif;
+    background-color:white;
+    width:1050px;
+    margin:0 auto;
+    text-align:center;
+    position: relative;
+}
+.comicImg
+{
+    padding: 10px 0;
+    z-index: 999999;
+}
+.altText {
+    margin: 0 auto 10px;
+    width: 90%;
+    padding: 10px;
+    text-align: left;
+    font-size: 18px;
+}
+@media (min-width: 1024px), handheld {
+    .altText { display: none; }
+}
+
+#explanation
+{
+    border:3px solid black;
+    border-radius:20px; 
+    width:600px;
+    margin: 20px auto 15px;
+    text-align:center;
+    padding: 4px;
+    background-color:#eee;
+    display: inline-block;
+}
+
+#explanation p 
+{ 
+    text-align: left;
+    line-height: 1.4em;
+    padding: 10px;
+}
+
+#explainHidden { display: none; }
+
+#share { 
+    margin: 20px auto 30px;
+    width: 483px;
+    height: 96px;
+    position: relative;
+}
+
+.links {
+    margin: 30px auto 0;
+    overflow: hidden;
+    padding: 0 60px;
+}
+
+.links a { padding: 0; }
+
+.links,
+.footer { text-align: left; }
+
+.column { float: left; }
+
+.links .column {
+    width: 45%;
+    margin-right: 10%;
+}
+
+#philosophers {
+	width: 875px;
+}
+
+.merch {
+    position: relative;
+    float: right;
+    width:200px;
+    margin-right:20px;
+}
+
+.counter-num {
+    margin-top:16px;
+    font-size: 35px;
+}
+
+.counter {
+    position: relative;
+    float: left;
+    width:200px;
+    height:132px;
+    margin-left:20px;
+display:block;
+}
+
+.navigation-links {
+margin: 0 auto;
+width: 600px;
+    display:inline-block;
+    position:relative;
+text-align: center;
+}
+.nav-table {
+    margin: 0 auto; /* or margin: 0 auto 0 auto */
+}
+
+.title {
+margin: 0 auto;
+width: 600px;
+    display:inline-block;
+    position:relative;
+text-align: center;
+}
+
+.links .column:last-child {
+    margin-right: 0;
+    text-align: right;
+}
+
+.footer {
+    clear: both;
+    margin: 30px 25px 0;
+    border-top: 3px solid black;
+    padding: 10px 0;
+    overflow: hidden;
+}
+
+.footer p {
+    float: right;
+    width: 300px;
+    text-align: right;
+}
+
+ul, ul li {
+    padding: 0;
+    margin: 0;
+}
+
+ul li { list-style: none; }
+
+ul.nav, ul.nav li, ul.nav li a {
+    display: inline-block;
+    padding: 0;
+}
+
+ul.nav li a { padding: 10px 10px 10px 0; }
+
+ul.nav li {
+    padding-right: 0;
+    font-weight: bold;
+}
+
+.links ul li,
+.page ul li { padding-bottom: 3px; }
+
+/* Archive page */
+.page { margin-bottom: 30px; }
+
+.page h3,
+.page ul li { text-align: left; }
+
+.page h3,
+.page .column ul {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.page .column {
+    width: 475px;
+    padding-right: 10px;
+    margin-bottom: 20px;
+}
+
+#philosophersplay-comics, #shitty-comics {
+    clear: both;
+}
+
+#shitty-comics {
+   width: 1000px;
+   float: none;
+}
+
+#date-comics {
+   width: 1000px;
+   float: none;
+}
+
+#blog-text {
+}
+
+#blog-bottom li {
+    padding: 4px
+}
+
+#blog-text p {
+    text-align: left;
+    line-height: 1.4em;
+    padding-left:  65px;
+    padding-right: 105px;
+}
+
+#shitty-comics ul {
+    columns: 2;
+   -webkit-columns: 2;
+   -moz-columns 2;
+}
+
+#philosophers-comic {
+    margin: 20px;
+}
+
+#philosophers span {
+    display: inline-block;
+    margin-right: 5px;
+    font-weight: bold;
+    width: 150px;
+}
+
+#topics span {
+    display: inline-block;
+    margin-right: 5px;
+    font-weight: bold;
+    width: 150px;
+}
+
+.ranking {
+    text-align: left;
+}
+
+#currentSexyPhilosopher {
+    text-align: center;
+    width:650px;
+    float: right;
+    margin-right: 45px;
+    margin-bottom: 20px;
+    margin-top: 45px;
+}
+
+#hotornot {
+    text-align: center;
+    border-style: solid;
+    border-width: 4px;
+    width:500px;
+    margin: 0 auto;
+    background-color: goldenrod;
+}
+
+#prevSexyPhilosopher {
+    text-align: center;
+    border-style: solid;
+    border-width: 4px;
+    width:300px;
+    float: left;
+    margin-left: 10px;
+    margin-top: 95px;
+}
+
+#voteButtons {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.sexyradio {
+    text-align: center;
+}
+
+/* Grammar */
+form {
+    padding: 30px 0;
+    text-align: left;
+}
+
+fieldset {
+    border: 0;
+    padding-top: 15px;
+}
+
+form p, fieldset {
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+form img {
+    padding-top: 10px;
+    padding-left: 3px;
+}
+
+input,
+textarea,
+select {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    padding: 5px;
+}
+
+#input,
+#textarea,
+#label { display: block; }
+
+label { margin-bottom: 5px; }
+
+input[type='text'],
+textarea { width: 80%; }
+
+input[type='text'],
+textarea,
+select {
+    border: 1px solid #333;
+    background: #fff;
+}
+
+input[type='text']:focus,
+textarea:focus,
+select:focus {
+    border: 1px solid #2d7527;
+    outline: none;
+}
+
+textarea { min-height: 80px; }
+
+input[type='submit'] {
+    margin: 15px 0 0 25px;
+    color: #fff;
+    padding: 5px 10px;
+    outline: none;
+    border-color: #085203;
+    background: #085203;
+}
+
+input[type='submit']:focus {
+    border-color: #095203;
+    background: #095203;
+}
+
+input[type='submit']:active {
+    background: #442828;
+    border-color: #442828;
+}
+
+
+/*------------------- marx-smith ------------------*/
+
+.quoteSection {
+	border=1;
+	border-style: solid;
+	overflow: auto;
+}
+
+.quoteContainer {
+	margin:auto;
+}
+
+.column-left{
+	float: left;
+	width: 333px;
+	border-style:solid;
+	border-width:4px;
+	border-color:red;
+}
+.column-right{
+	float: right;
+	width: 333px;
+	border-style:solid;
+	border-width:4px;
+	border-color:blue;
+}
+.column-center{ display: inline-block; width: 33%; margin-top:5%;}
+
+.vote-marx{ float: left; width: 50%;}
+.marx-submit{ float: left; width: 50%; background:red;}
+.vote-smith{ float: right; width: 50% }
+.smith-submit{ float: left; width: 50%; background:blue;}
+.next-question{ float: left; width: 50%; background:grey;}
+/* ============================================================================================================================
+== BUBBLE WITH AN ISOCELES TRIANGLE
+** ============================================================================================================================ */
+
+/* THE SPEECH BUBBLE
+------------------------------------------------------------------------------------------------------------------------------- */
+
+.triangle-isosceles {
+  position:relative;
+  width:300px;
+  padding:15px;
+  margin:1em 0 3em;
+  color:#000;
+  background:#999999; /* default background for browsers without gradient support */
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  border-radius:10px;
+}
+
+/* Variant : for left/right positioned triangle
+------------------------------------------ */
+
+.triangle-isosceles.left {
+  background:#ff2222;
+}
+
+/* Variant : for right positioned triangle
+------------------------------------------ */
+
+.triangle-isosceles.right {
+  background:#5555ff;
+}
+
+/* THE TRIANGLE
+------------------------------------------------------------------------------------------------------------------------------- */
+
+/* creates triangle */
+.triangle-isosceles:after {
+  content:"";
+  position:absolute;
+  border-style:solid;
+  border-color:#999999 transparent;
+  /* reduce the damage in FF3.0 */
+  display:block;
+  width:0;
+}
+
+/* Variant : left
+------------------------------------------ */
+
+.triangle-isosceles.left:after {
+  top:16px; /* controls vertical position */
+  left:-50px; /* value = - border-left-width - border-right-width */
+  bottom:auto;
+  border-width:10px 50px 10px 0;
+  border-color:transparent #ff2222;
+}
+
+/* Variant : right
+------------------------------------------ */
+
+.triangle-isosceles.right:after {
+  top:16px; /* controls vertical position */
+  right:-50px; /* value = - border-left-width - border-right-width */
+  bottom:auto;
+  left:auto;
+  border-width:10px 0 10px 50px;
+  border-color:transparent #5555ff;
+}
+
+/* chat box */
+    #chat-container {
+        width:400px;
+        height:600px;
+        background:white;
+        border-radius:10px;
+        display:flex;
+        flex-direction:column;
+        box-shadow:0 0 15px rgba(0,0,0,0.2);
+        overflow:hidden;
+    }
+    #messages {
+        flex:1;
+        padding:15px;
+        overflow-y:auto;
+    }
+
+    /* MESSAGE BUBBLES */
+    .message-row {
+        display:flex;
+        align-items:flex-end;
+        margin-bottom:15px;
+    }
+    .avatar {
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        margin-right:10px;
+    }
+    .message {
+        padding:10px 14px;
+        border-radius:10px;
+        max-width:70%;
+        line-height:1.4em;
+    }
+    .user {
+        background:#0084ff;
+        color:white;
+        margin-left:auto;
+        margin-right:0;
+        border-bottom-right-radius:0;
+    }
+    .bot {
+        background:#eee;
+        color:black;
+        border-bottom-left-radius:0;
+    }
+
+    /* TYPING INDICATOR */
+    .typing-indicator {
+        display:flex;
+        align-items:center;
+        padding:10px 14px;
+        background:#eee;
+        border-radius:10px;
+        width:60px;
+        border-bottom-left-radius:0;
+    }
+
+    .typing-dot {
+        width:6px;
+        height:6px;
+        background:#999;
+        border-radius:50%;
+        margin:0 3px;
+        animation: blink 1.4s infinite both;
+    }
+
+    .typing-dot:nth-child(2) {
+        animation-delay:0.2s;
+    }
+    .typing-dot:nth-child(3) {
+        animation-delay:0.4s;
+    }
+
+    @keyframes blink {
+        0% { opacity:0.2; }
+        20% { opacity:1; }
+        100% { opacity:0.2; }
+    }
+
+    /* FOOTER */
+    #input-area {
+        padding:10px;
+        border-top:1px solid #ddd;
+        display:flex;
+        gap:10px;
+    }
+    #input-area input {
+        flex:1;
+        padding:10px;
+        font-size:16px;
+        border-radius:5px;
+        border:1px solid #ccc;
+    }
+    #input-area button {
+        padding:10px 15px;
+        font-size:16px;
+        border:none;
+        border-radius:5px;
+        background:#0084ff;
+        color:white;
+        cursor:pointer;
+    }

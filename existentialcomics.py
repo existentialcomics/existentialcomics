@@ -24,6 +24,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['CACHE_TYPE'] = 'memcached'
 app.config['CACHE_MEMCACHED_SERVERS'] = ['localhost:11211']
 
+#app.cache = Cache(config={'CACHE_TYPE': 'SimpleCache'})
+
 app.cache = Cache(app)
 # cache = MemcachedCache(['localhost:11211'])
 db = SQLAlchemy(app)
@@ -237,6 +239,11 @@ def random():
                 curComic += 1
     return redirect("/comic/" + str(curComic))
 
+
+@app.route('/askSocrates')
+def askSocrates():
+    titleImg = s.STATIC_URL + '/titleArchive.jpg'
+    return render_template('askSocratesPage.html', titleImg=titleImg, static=s.STATIC_URL)
 
 @app.route('/about')
 def serveAbout():
